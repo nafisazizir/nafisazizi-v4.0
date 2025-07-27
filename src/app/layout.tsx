@@ -1,15 +1,25 @@
 import type { Metadata } from 'next';
-import { Inter, Geist_Mono } from 'next/font/google';
+import { Inter } from 'next/font/google';
+import { Playfair_Display } from 'next/font/google';
+
+import { Footer } from '@/components/layout/footer';
+import { Header } from '@/components/layout/header';
+import { ThemeProvider } from '@/components/theme-provider';
+
 import './globals.css';
 
 const inter = Inter({
-  variable: '--font-inter-sans',
   subsets: ['latin'],
+  variable: '--font-inter',
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  display: 'swap',
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const playfair = Playfair_Display({
   subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-playfair',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -27,13 +37,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${inter.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
-      >
-        <main className="container mx-auto max-w-6xl flex-grow px-4 sm:px-6 lg:px-8">
-          {children}
-        </main>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${inter.variable} ${playfair.variable} antialiased`}
+    >
+      <body className={`flex min-h-screen flex-col`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Header />
+          <main className="container mx-auto max-w-6xl flex-grow px-4 sm:px-6 lg:px-8">
+            {children}
+          </main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
