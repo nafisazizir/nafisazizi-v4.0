@@ -54,7 +54,13 @@ export function BlogContent({ post }: BlogContentProps) {
       {/* Cover Image */}
       {post.coverImage && (
         <div className="mb-8 aspect-video overflow-hidden rounded-lg">
-          <Image src={post.coverImage} alt={post.title} className="h-full w-full object-cover" />
+          <Image 
+            src={post.coverImage} 
+            alt={post.title} 
+            width={800}
+            height={450}
+            className="h-full w-full object-cover" 
+          />
         </div>
       )}
 

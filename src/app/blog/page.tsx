@@ -1,11 +1,9 @@
 import { BlogCard } from '@/components/blog';
 
-import { getAllBlogPosts } from '@/lib/notion';
+import { getAllBlogPosts } from '@/lib/content';
 
 export default async function Blog() {
   const posts = await getAllBlogPosts();
-
-  console.log(posts);
 
   return (
     <div className="py-12">

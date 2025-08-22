@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 
 import { BlogContent } from '@/components/blog';
 
-import { getAllBlogSlugs, getBlogPostBySlug } from '@/lib/notion';
+import { getAllBlogSlugs, getBlogPostBySlug } from '@/lib/content';
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
