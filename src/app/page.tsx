@@ -59,7 +59,7 @@ export default function Home() {
       </div>
 
       <div className="flex flex-col items-center justify-center py-16 text-center md:py-24">
-        <p className="text-muted-foreground mb-3 text-sm font-medium sm:text-base lg:text-lg">
+        <p className="text-muted-foreground mb-3 text-sm sm:text-base lg:text-lg">
           Have something in mind?
         </p>
         <h2 className="font-playfair text-foreground mb-8 text-3xl font-medium tracking-tight sm:text-4xl md:mb-10 lg:text-5xl xl:text-6xl">
@@ -70,7 +70,13 @@ export default function Home() {
         </Button>
         <p className="text-muted-foreground text-xs sm:text-sm lg:text-base">
           My local time{' '}
-          <span className="text-foreground font-medium">{new Date().toLocaleTimeString()}</span>
+          <span className="text-foreground font-medium">
+            {new Date().toLocaleTimeString('en-AU', {
+              timeZone: 'Australia/Brisbane',
+              hour: '2-digit',
+              minute: '2-digit',
+            })}
+          </span>
         </p>
       </div>
     </div>
