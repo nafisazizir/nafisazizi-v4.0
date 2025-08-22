@@ -37,6 +37,9 @@ export function BlogCard({ post, className }: BlogCardProps) {
                 width={400}
                 height={225}
                 className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                placeholder={post.blurDataURL ? 'blur' : 'empty'}
+                blurDataURL={post.blurDataURL || undefined}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
           )}

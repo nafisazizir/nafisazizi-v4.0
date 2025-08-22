@@ -6,6 +6,7 @@ import remarkBreaks from 'remark-breaks';
 import remarkGfm from 'remark-gfm';
 
 import { BlogPost } from '@/lib/notion';
+import { mdxComponents } from './mdx-components';
 
 interface BlogContentProps {
   post: BlogPost;
@@ -59,7 +60,11 @@ export function BlogContent({ post }: BlogContentProps) {
             alt={post.title} 
             width={800}
             height={450}
-            className="h-full w-full object-cover" 
+            className="h-full w-full object-cover"
+            placeholder={post.blurDataURL ? 'blur' : 'empty'}
+            blurDataURL={post.blurDataURL || undefined}
+            sizes="(max-width: 768px) 100vw, 800px"
+            priority
           />
         </div>
       )}
@@ -68,6 +73,7 @@ export function BlogContent({ post }: BlogContentProps) {
       <div className="prose prose-gray dark:prose-invert max-w-none">
         <MDXRemote
           source={post.content ?? ''}
+          components={mdxComponents}
           options={{
             mdxOptions: {
               remarkPlugins: [remarkGfm, remarkBreaks],

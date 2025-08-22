@@ -1,6 +1,7 @@
 #!/usr/bin/env tsx
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // scripts/generate-content.ts
-// Pre-build script that fetches all content from Notion and stores it locally
+// Pre-build script that fetches all content from Notion, processes images, and stores locally
 import 'dotenv/config';
 import { mkdir, writeFile } from 'fs/promises';
 import { join } from 'path';
@@ -8,6 +9,8 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 import { getAllBlogPosts, getAllBlogSlugs, getBlogPostBySlug } from '../src/lib/notion/index.js';
+import { ImageProcessor, extractImageUrls, replaceImageUrls } from '../src/lib/images/index.js';
+import type { BlogPost } from '../src/lib/notion/types.js';
 
 // Get the directory of this script
 const __filename = fileURLToPath(import.meta.url);
@@ -24,13 +27,70 @@ async function ensureDirectoryExists(dirPath: string) {
   }
 }
 
+async function processPostImages(post: BlogPost, imageProcessor: ImageProcessor): Promise<BlogPost> {
+  console.log(`     🖼️  Processing images for "${post.title}"...`);
+  
+  const imagesToProcess: string[] = [];
+  
+  // Add cover image if it exists
+  if (post.coverImage && post.coverImage.startsWith('http')) {
+    imagesToProcess.push(post.coverImage);
+  }
+  
+  // Extract images from content
+  const contentImages = extractImageUrls(post.content);
+  imagesToProcess.push(...contentImages);
+  
+  if (imagesToProcess.length === 0) {
+    console.log(`       No images to process`);
+    return post;
+  }
+  
+  console.log(`       Found ${imagesToProcess.length} images to optimize`);
+  
+  // Process all images
+  const processedImages = await imageProcessor.processMultipleImages(imagesToProcess, {
+    maxWidth: 1920,
+    maxHeight: 1080,
+    quality: 85,
+    format: 'webp',
+    generateBlur: true,
+  });
+  
+  // Update cover image if processed
+  let updatedCoverImage = post.coverImage;
+  let coverBlurDataURL = post.blurDataURL;
+  
+  if (post.coverImage && processedImages.has(post.coverImage)) {
+    const processed = processedImages.get(post.coverImage)!;
+    updatedCoverImage = processed.publicPath;
+    coverBlurDataURL = processed.blurDataURL;
+  }
+  
+  // Update content with local image paths
+  const updatedContent = replaceImageUrls(post.content, processedImages);
+  
+  console.log(`       ✅ Processed ${processedImages.size} images successfully`);
+  
+  return {
+    ...post,
+    coverImage: updatedCoverImage,
+    blurDataURL: coverBlurDataURL,
+    content: updatedContent,
+  };
+}
+
 async function generateBlogContent() {
-  console.log('🚀 Starting content generation...\n');
+  console.log('🚀 Starting content generation with image optimization...\n');
 
   try {
     // Create content directory
     const contentDir = join(projectRoot, 'content', 'blog');
     await ensureDirectoryExists(contentDir);
+    
+    // Initialize image processor
+    const imageProcessor = new ImageProcessor('blog');
+    console.log('📸 Image processor initialized\n');
 
     console.log('📝 Fetching blog posts overview...');
 
@@ -38,13 +98,42 @@ async function generateBlogContent() {
     const blogPosts = await getAllBlogPosts();
     console.log(`   Found ${blogPosts.length} published posts`);
 
+    // Process images for preview posts (cover images only)
+    const processedBlogPosts = [];
+    for (let i = 0; i < blogPosts.length; i++) {
+      const post = blogPosts[i];
+      console.log(`   Processing preview ${i + 1}/${blogPosts.length}: ${post.title}`);
+      
+      const updatedPost = { ...post };
+      
+      // Process cover image if it exists
+      if (post.coverImage && post.coverImage.startsWith('http')) {
+        try {
+          const processed = await imageProcessor.processImage(post.coverImage, {
+            maxWidth: 800,
+            maxHeight: 450,
+            quality: 85,
+            format: 'webp',
+            generateBlur: true,
+          });
+          
+          updatedPost.coverImage = processed.publicPath;
+          updatedPost.blurDataURL = processed.blurDataURL;
+        } catch (error) {
+          console.warn(`     ⚠️  Failed to process cover image: ${error}`);
+        }
+      }
+      
+      processedBlogPosts.push(updatedPost);
+    }
+
     // Save blog posts overview
     const blogOverviewPath = join(contentDir, 'index.json');
-    await writeFile(blogOverviewPath, JSON.stringify(blogPosts, null, 2));
-    console.log(`   ✅ Saved blog overview to ${blogOverviewPath}`);
+    await writeFile(blogOverviewPath, JSON.stringify(processedBlogPosts, null, 2));
+    console.log(`   ✅ Saved blog overview with optimized images to ${blogOverviewPath}`);
 
     // Get all slugs for detailed content
-    console.log('\n📄 Fetching detailed post content...');
+    console.log('\n📄 Fetching detailed post content with full image processing...');
     const slugs = await getAllBlogSlugs();
 
     const detailedPosts = [];
@@ -56,12 +145,14 @@ async function generateBlogContent() {
       try {
         const post = await getBlogPostBySlug(slug);
         if (post) {
-          detailedPosts.push(post);
+          // Process all images in the post
+          const processedPost = await processPostImages(post, imageProcessor);
+          detailedPosts.push(processedPost);
 
           // Save individual post file
           const postPath = join(contentDir, `${slug}.json`);
-          await writeFile(postPath, JSON.stringify(post, null, 2));
-          console.log(`     ✅ Saved ${slug}.json`);
+          await writeFile(postPath, JSON.stringify(processedPost, null, 2));
+          console.log(`     ✅ Saved ${slug}.json with optimized images`);
         }
       } catch (error) {
         console.log(
@@ -75,22 +166,29 @@ async function generateBlogContent() {
     await writeFile(allPostsPath, JSON.stringify(detailedPosts, null, 2));
     console.log(`   ✅ Saved complete collection to all-posts.json`);
 
-    // Generate metadata file
+    // Generate metadata file with image statistics
+    const totalImages = ImageProcessor['cache']?.size || 0;
     const metadata = {
       generatedAt: new Date().toISOString(),
-      totalPosts: blogPosts.length,
+      totalPosts: processedBlogPosts.length,
       detailedPosts: detailedPosts.length,
       slugs: slugs,
       lastUpdated: new Date().toISOString(),
+      imageStats: {
+        totalImagesProcessed: totalImages,
+        coverImagesOptimized: processedBlogPosts.filter(p => p.coverImage && !p.coverImage.startsWith('http')).length,
+      },
     };
 
     const metadataPath = join(contentDir, 'metadata.json');
     await writeFile(metadataPath, JSON.stringify(metadata, null, 2));
-    console.log(`   ✅ Saved metadata to metadata.json`);
+    console.log(`   ✅ Saved metadata with image stats to metadata.json`);
 
-    console.log('\n🎉 Content generation completed successfully!');
+    console.log('\n🎉 Content generation with image optimization completed successfully!');
     console.log(`📊 Generated ${detailedPosts.length} blog posts`);
+    console.log(`🖼️  Optimized ${totalImages} images`);
     console.log(`📁 Content saved to: ${contentDir}`);
+    console.log(`🖼️  Images saved to: public/blog-images/`);
   } catch (error) {
     console.error('\n❌ Content generation failed:');
     console.error(error instanceof Error ? error.message : String(error));

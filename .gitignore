@@ -42,3 +42,5 @@ next-env.d.ts
 
 # generated content (regenerated on build)
 /content
+/public/blog-images
+/public/*-images

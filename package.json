@@ -13,6 +13,7 @@
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "test:notion": "tsx scripts/test-notion.ts",
     "test:content": "tsx scripts/test-content.ts",
+    "test:images": "tsx scripts/test-images.ts",
     "generate:content": "tsx scripts/generate-content.ts"
   },
   "dependencies": {
