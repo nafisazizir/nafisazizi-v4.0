@@ -8,8 +8,8 @@ import { join } from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-import { getAllBlogPosts, getAllBlogSlugs, getBlogPostBySlug } from '../src/lib/notion/index.js';
 import { ImageProcessor, extractImageUrls, replaceImageUrls } from '../src/lib/images/index.js';
+import { getAllBlogPosts, getAllBlogSlugs, getBlogPostBySlug } from '../src/lib/notion/index.js';
 import type { BlogPost } from '../src/lib/notion/types.js';
 
 // Get the directory of this script
@@ -27,27 +27,30 @@ async function ensureDirectoryExists(dirPath: string) {
   }
 }
 
-async function processPostImages(post: BlogPost, imageProcessor: ImageProcessor): Promise<BlogPost> {
+async function processPostImages(
+  post: BlogPost,
+  imageProcessor: ImageProcessor,
+): Promise<BlogPost> {
   console.log(`     🖼️  Processing images for "${post.title}"...`);
-  
+
   const imagesToProcess: string[] = [];
-  
+
   // Add cover image if it exists
   if (post.coverImage && post.coverImage.startsWith('http')) {
     imagesToProcess.push(post.coverImage);
   }
-  
+
   // Extract images from content
   const contentImages = extractImageUrls(post.content);
   imagesToProcess.push(...contentImages);
-  
+
   if (imagesToProcess.length === 0) {
     console.log(`       No images to process`);
     return post;
   }
-  
+
   console.log(`       Found ${imagesToProcess.length} images to optimize`);
-  
+
   // Process all images
   const processedImages = await imageProcessor.processMultipleImages(imagesToProcess, {
     maxWidth: 1920,
@@ -56,22 +59,22 @@ async function processPostImages(post: BlogPost, imageProcessor: ImageProcessor)
     format: 'webp',
     generateBlur: true,
   });
-  
+
   // Update cover image if processed
   let updatedCoverImage = post.coverImage;
   let coverBlurDataURL = post.blurDataURL;
-  
+
   if (post.coverImage && processedImages.has(post.coverImage)) {
     const processed = processedImages.get(post.coverImage)!;
     updatedCoverImage = processed.publicPath;
     coverBlurDataURL = processed.blurDataURL;
   }
-  
+
   // Update content with local image paths
   const updatedContent = replaceImageUrls(post.content, processedImages);
-  
+
   console.log(`       ✅ Processed ${processedImages.size} images successfully`);
-  
+
   return {
     ...post,
     coverImage: updatedCoverImage,
@@ -87,7 +90,7 @@ async function generateBlogContent() {
     // Create content directory
     const contentDir = join(projectRoot, 'content', 'blog');
     await ensureDirectoryExists(contentDir);
-    
+
     // Initialize image processor
     const imageProcessor = new ImageProcessor('blog');
     console.log('📸 Image processor initialized\n');
@@ -103,9 +106,9 @@ async function generateBlogContent() {
     for (let i = 0; i < blogPosts.length; i++) {
       const post = blogPosts[i];
       console.log(`   Processing preview ${i + 1}/${blogPosts.length}: ${post.title}`);
-      
+
       const updatedPost = { ...post };
-      
+
       // Process cover image if it exists
       if (post.coverImage && post.coverImage.startsWith('http')) {
         try {
@@ -116,14 +119,14 @@ async function generateBlogContent() {
             format: 'webp',
             generateBlur: true,
           });
-          
+
           updatedPost.coverImage = processed.publicPath;
           updatedPost.blurDataURL = processed.blurDataURL;
         } catch (error) {
           console.warn(`     ⚠️  Failed to process cover image: ${error}`);
         }
       }
-      
+
       processedBlogPosts.push(updatedPost);
     }
 
@@ -176,7 +179,9 @@ async function generateBlogContent() {
       lastUpdated: new Date().toISOString(),
       imageStats: {
         totalImagesProcessed: totalImages,
-        coverImagesOptimized: processedBlogPosts.filter(p => p.coverImage && !p.coverImage.startsWith('http')).length,
+        coverImagesOptimized: processedBlogPosts.filter(
+          (p) => p.coverImage && !p.coverImage.startsWith('http'),
+        ).length,
       },
     };
 

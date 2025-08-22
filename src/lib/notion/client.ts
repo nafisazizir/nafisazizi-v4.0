@@ -1,5 +1,4 @@
 // src/lib/notion/client.ts
-
 import { Client } from '@notionhq/client';
 import { NotionToMarkdown } from 'notion-to-md';
 
@@ -18,8 +17,8 @@ export const notion = new Client({
 });
 
 // Initialize Notion to Markdown converter
-export const n2m = new NotionToMarkdown({ 
-  notionClient: notion 
+export const n2m = new NotionToMarkdown({
+  notionClient: notion,
 });
 
 // Database IDs

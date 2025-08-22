@@ -6,6 +6,7 @@ import remarkBreaks from 'remark-breaks';
 import remarkGfm from 'remark-gfm';
 
 import { BlogPost } from '@/lib/notion';
+
 import { mdxComponents } from './mdx-components';
 
 interface BlogContentProps {
@@ -55,9 +56,9 @@ export function BlogContent({ post }: BlogContentProps) {
       {/* Cover Image */}
       {post.coverImage && (
         <div className="mb-8 aspect-video overflow-hidden rounded-lg">
-          <Image 
-            src={post.coverImage} 
-            alt={post.title} 
+          <Image
+            src={post.coverImage}
+            alt={post.title}
             width={800}
             height={450}
             className="h-full w-full object-cover"

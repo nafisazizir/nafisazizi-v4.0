@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // src/lib/images/processor.ts
 // Image processing utilities for optimizing and caching images
-
 import { createHash } from 'crypto';
-import { mkdir, writeFile, access } from 'fs/promises';
-import { join, extname } from 'path';
+import { access, mkdir, writeFile } from 'fs/promises';
+import { join } from 'path';
 import sharp from 'sharp';
 
 export interface ProcessedImage {
@@ -81,25 +81,21 @@ export class ImageProcessor {
       .blur(1)
       .webp({ quality: 20 })
       .toBuffer();
-    
+
     const base64 = blurBuffer.toString('base64');
     return `data:image/webp;base64,${base64}`;
   }
 
-  async processImage(
-    url: string, 
-    options: ImageProcessingOptions = {}
-  ): Promise<ProcessedImage> {
+  async processImage(url: string, options: ImageProcessingOptions = {}): Promise<ProcessedImage> {
     const opts = { ...DEFAULT_OPTIONS, ...options };
     const hash = this.generateImageHash(url);
-    
+
     // Check cache first
     if (ImageProcessor.cache.has(hash)) {
       return ImageProcessor.cache.get(hash)!;
     }
 
     // Generate filename
-    const originalExt = extname(new URL(url).pathname) || '.jpg';
     const filename = `${hash}.${opts.format}`;
     const localPath = join(this.baseDir, filename);
     const publicPath = `${this.publicDir}/${filename}`;
@@ -110,7 +106,7 @@ export class ImageProcessor {
         // Get existing file metadata
         const metadata = await sharp(localPath).metadata();
         const stats = await sharp(localPath).stats();
-        
+
         const result: ProcessedImage = {
           originalUrl: url,
           localPath,
@@ -119,12 +115,15 @@ export class ImageProcessor {
           height: metadata.height || 0,
           format: metadata.format || opts.format,
           size: stats.size || 0,
-          blurDataURL: opts.generateBlur ? await this.generateBlurDataURL(await sharp(localPath).toBuffer()) : '',
+          blurDataURL: opts.generateBlur
+            ? await this.generateBlurDataURL(await sharp(localPath).toBuffer())
+            : '',
         };
 
         ImageProcessor.cache.set(hash, result);
         return result;
-      } catch (error) {
+      } catch (error: any) {
+        console.warn(error.message);
         console.warn(`Failed to read existing image ${filename}, regenerating...`);
       }
     }
@@ -136,15 +135,17 @@ export class ImageProcessor {
       // Fetch and process image
       console.log(`   📸 Processing image: ${url}`);
       const buffer = await this.fetchImageBuffer(url);
-      
+
       let pipeline = sharp(buffer);
 
       // Get original metadata
       const metadata = await pipeline.metadata();
-      
+
       // Resize if needed
-      if (metadata.width && metadata.width > opts.maxWidth || 
-          metadata.height && metadata.height > opts.maxHeight) {
+      if (
+        (metadata.width && metadata.width > opts.maxWidth) ||
+        (metadata.height && metadata.height > opts.maxHeight)
+      ) {
         pipeline = pipeline.resize(opts.maxWidth, opts.maxHeight, {
           fit: 'inside',
           withoutEnlargement: true,
@@ -173,8 +174,7 @@ export class ImageProcessor {
       const stats = { size: processedBuffer.length };
 
       // Generate blur placeholder
-      const blurDataURL = opts.generateBlur ? 
-        await this.generateBlurDataURL(processedBuffer) : '';
+      const blurDataURL = opts.generateBlur ? await this.generateBlurDataURL(processedBuffer) : '';
 
       const result: ProcessedImage = {
         originalUrl: url,
@@ -189,14 +189,15 @@ export class ImageProcessor {
 
       // Cache result
       ImageProcessor.cache.set(hash, result);
-      
-      console.log(`     ✅ Saved optimized image: ${filename} (${result.width}x${result.height}, ${Math.round(result.size / 1024)}KB)`);
-      
-      return result;
 
+      console.log(
+        `     ✅ Saved optimized image: ${filename} (${result.width}x${result.height}, ${Math.round(result.size / 1024)}KB)`,
+      );
+
+      return result;
     } catch (error) {
       console.error(`     ❌ Failed to process image ${url}:`, error);
-      
+
       // Return a fallback result that uses the original URL
       const fallback: ProcessedImage = {
         originalUrl: url,
@@ -208,17 +209,17 @@ export class ImageProcessor {
         size: 0,
         blurDataURL: '',
       };
-      
+
       return fallback;
     }
   }
 
   async processMultipleImages(
-    urls: string[], 
-    options: ImageProcessingOptions = {}
+    urls: string[],
+    options: ImageProcessingOptions = {},
   ): Promise<Map<string, ProcessedImage>> {
     const results = new Map<string, ProcessedImage>();
-    
+
     for (const url of urls) {
       if (url && url.startsWith('http')) {
         try {
@@ -229,7 +230,7 @@ export class ImageProcessor {
         }
       }
     }
-    
+
     return results;
   }
 
@@ -243,24 +244,24 @@ export function extractImageUrls(markdown: string): string[] {
   const imageRegex = /!\[.*?\]\((https?:\/\/[^\s)]+)\)/g;
   const urls: string[] = [];
   let match;
-  
+
   while ((match = imageRegex.exec(markdown)) !== null) {
     urls.push(match[1]);
   }
-  
+
   return urls;
 }
 
 // Utility function to replace image URLs in markdown with local paths
 export function replaceImageUrls(markdown: string, imageMap: Map<string, ProcessedImage>): string {
   let updatedMarkdown = markdown;
-  
+
   imageMap.forEach((processed, originalUrl) => {
     // Only replace if we have a valid local path
     if (processed.publicPath && processed.publicPath !== originalUrl) {
       updatedMarkdown = updatedMarkdown.replaceAll(originalUrl, processed.publicPath);
     }
   });
-  
+
   return updatedMarkdown;
 }

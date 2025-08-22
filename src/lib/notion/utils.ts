@@ -1,7 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // src/lib/notion/utils.ts
-
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
-import type { NotionPage } from './types';
 
 export function isFullPage(response: any): response is PageObjectResponse {
   return 'properties' in response;
@@ -27,7 +26,7 @@ export function getDateContent(date: any): string | null {
 
 export function getFormulaContent(formula: any): string {
   if (!formula) return '';
-  
+
   switch (formula.type) {
     case 'string':
       return formula.string || '';
@@ -80,10 +79,10 @@ export function extractExcerpt(content: string, maxLength: number = 160): string
   // Find the last complete word within the limit
   const truncated = plainText.substring(0, maxLength);
   const lastSpaceIndex = truncated.lastIndexOf(' ');
-  
+
   if (lastSpaceIndex > 0) {
     return truncated.substring(0, lastSpaceIndex) + '...';
   }
-  
+
   return truncated + '...';
 }
