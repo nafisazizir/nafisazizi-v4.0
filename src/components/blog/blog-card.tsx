@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { BlogPostPreview } from '@/lib/notion';
 import { cn } from '@/lib/utils';
 
+import { Badge } from '../ui/badge';
+
 interface BlogCardProps {
   post: BlogPostPreview;
   className?: string;
@@ -54,9 +56,9 @@ export function BlogCard({ post, className }: BlogCardProps) {
                   <span>•</span>
                   <div className="flex gap-1">
                     {post.tags.slice(0, 2).map((tag) => (
-                      <span key={tag} className="bg-secondary rounded-full px-2 py-1 text-xs">
+                      <Badge key={tag} variant="secondary">
                         {tag}
-                      </span>
+                      </Badge>
                     ))}
                     {post.tags.length > 2 && (
                       <span className="text-xs">+{post.tags.length - 2}</span>

@@ -1,4 +1,4 @@
-import { BlogCard } from '@/components/blog';
+import { BlogList } from '@/components/blog';
 
 import { getAllBlogPosts } from '@/lib/content';
 
@@ -22,11 +22,7 @@ export default async function Blog() {
             </p>
           </div>
         ) : (
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {posts.map((post) => (
-              <BlogCard key={post.id} post={post} />
-            ))}
-          </div>
+          <BlogList posts={posts} />
         )}
       </div>
     </div>

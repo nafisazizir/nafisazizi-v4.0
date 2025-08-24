@@ -8,6 +8,7 @@ import remarkGfm from 'remark-gfm';
 import { BlogPost } from '@/lib/notion';
 
 import { mdxComponents } from './mdx-components';
+import { Badge } from '../ui/badge';
 
 interface BlogContentProps {
   post: BlogPost;
@@ -35,9 +36,9 @@ export function BlogContent({ post }: BlogContentProps) {
           {post.tags.length > 0 && (
             <div className="flex gap-2">
               {post.tags.map((tag) => (
-                <span key={tag} className="bg-secondary rounded-full px-2 py-1 text-xs font-medium">
+                <Badge key={tag} variant="secondary">
                   {tag}
-                </span>
+                </Badge>
               ))}
             </div>
           )}
