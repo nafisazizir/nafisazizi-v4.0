@@ -10,7 +10,9 @@ import { fileURLToPath } from 'url';
 
 import { ImageProcessor, extractImageUrls, replaceImageUrls } from '../src/lib/images/index.js';
 import { getAllBlogPosts, getAllBlogSlugs, getBlogPostBySlug } from '../src/lib/notion/index.js';
+import { getAllProjects, getAllProjectSlugs, getProjectBySlug } from '../src/lib/notion/projects.js';
 import type { BlogPost } from '../src/lib/notion/types.js';
+import type { Project } from '../src/lib/notion/project-types.js';
 
 // Get the directory of this script
 const __filename = fileURLToPath(import.meta.url);
@@ -27,10 +29,10 @@ async function ensureDirectoryExists(dirPath: string) {
   }
 }
 
-async function processPostImages(
-  post: BlogPost,
+async function processPostImages<T extends { title: string; content: string; coverImage: string | null; blurDataURL: string | null }>(
+  post: T,
   imageProcessor: ImageProcessor,
-): Promise<BlogPost> {
+): Promise<T> {
   console.log(`     🖼️  Processing images for "${post.title}"...`);
 
   const imagesToProcess: string[] = [];
@@ -83,8 +85,132 @@ async function processPostImages(
   };
 }
 
+async function generateProjectContent() {
+  console.log('\n🚧 Generating project content with image optimization...\n');
+
+  try {
+    // Create content directory
+    const contentDir = join(projectRoot, 'content', 'projects');
+    await ensureDirectoryExists(contentDir);
+
+    // Initialize image processor for projects
+    const imageProcessor = new ImageProcessor('project');
+    console.log('📸 Project image processor initialized\n');
+
+    console.log('📝 Fetching project posts overview...');
+
+    // Get all projects (preview data)
+    const projects = await getAllProjects();
+    console.log(`   Found ${projects.length} published projects`);
+
+    // Process images for preview projects (cover images only)
+    const processedProjects = [];
+    for (let i = 0; i < projects.length; i++) {
+      const project = projects[i];
+      console.log(`   Processing preview ${i + 1}/${projects.length}: ${project.title}`);
+
+      const updatedProject = { ...project };
+
+      // Process cover image if it exists
+      if (project.coverImage && project.coverImage.startsWith('http')) {
+        try {
+          const processed = await imageProcessor.processImage(project.coverImage, {
+            maxWidth: 800,
+            maxHeight: 450,
+            quality: 85,
+            format: 'webp',
+            generateBlur: true,
+          });
+
+          updatedProject.coverImage = processed.publicPath;
+          updatedProject.blurDataURL = processed.blurDataURL;
+        } catch (error) {
+          console.warn(`     ⚠️  Failed to process cover image: ${error}`);
+        }
+      }
+
+      processedProjects.push(updatedProject);
+    }
+
+    // Save projects overview
+    const projectOverviewPath = join(contentDir, 'index.json');
+    await writeFile(projectOverviewPath, JSON.stringify(processedProjects, null, 2));
+    console.log(`   ✅ Saved project overview with optimized images to ${projectOverviewPath}`);
+
+    // Get all slugs for detailed content
+    console.log('\n📄 Fetching detailed project content with full image processing...');
+    const slugs = await getAllProjectSlugs();
+
+    const detailedProjects = [];
+
+    for (let i = 0; i < slugs.length; i++) {
+      const slug = slugs[i];
+      console.log(`   Processing ${i + 1}/${slugs.length}: ${slug}`);
+
+      try {
+        const project = await getProjectBySlug(slug);
+        if (project) {
+          // Process all images in the project
+          const processedProject = await processPostImages(project, imageProcessor);
+          detailedProjects.push(processedProject);
+
+          // Save individual project file
+          const projectPath = join(contentDir, `${slug}.json`);
+          await writeFile(projectPath, JSON.stringify(processedProject, null, 2));
+          console.log(`     ✅ Saved ${slug}.json with optimized images`);
+        }
+      } catch (error) {
+        console.log(
+          `     ❌ Failed to process ${slug}: ${error instanceof Error ? error.message : String(error)}`,
+        );
+      }
+    }
+
+    // Create a complete projects collection (all detailed projects)
+    const allProjectsPath = join(contentDir, 'all-projects.json');
+    await writeFile(allProjectsPath, JSON.stringify(detailedProjects, null, 2));
+    console.log(`   ✅ Saved complete collection to all-projects.json`);
+
+    // Generate metadata file with image statistics
+    const totalImages = ImageProcessor['cache']?.size || 0;
+    const metadata = {
+      generatedAt: new Date().toISOString(),
+      totalProjects: processedProjects.length,
+      detailedProjects: detailedProjects.length,
+      slugs: slugs,
+      lastUpdated: new Date().toISOString(),
+      imageStats: {
+        totalImagesProcessed: totalImages,
+        coverImagesOptimized: processedProjects.filter(
+          (p) => p.coverImage && !p.coverImage.startsWith('http'),
+        ).length,
+      },
+    };
+
+    const metadataPath = join(contentDir, 'metadata.json');
+    await writeFile(metadataPath, JSON.stringify(metadata, null, 2));
+    console.log(`   ✅ Saved metadata with image stats to metadata.json`);
+
+    console.log('\n🎉 Project content generation with image optimization completed successfully!');
+    console.log(`📊 Generated ${detailedProjects.length} projects`);
+    console.log(`🖼️  Optimized images`);
+    console.log(`📁 Content saved to: ${contentDir}`);
+    console.log(`🖼️  Images saved to: public/project-images/`);
+
+    return {
+      totalProjects: processedProjects.length,
+      detailedProjects: detailedProjects.length,
+      processedImages: totalImages,
+    };
+  } catch (error) {
+    console.error('\n❌ Project content generation failed:');
+    console.error(error instanceof Error ? error.message : String(error));
+    throw error;
+  }
+}
+
 async function generateBlogContent() {
-  console.log('🚀 Starting content generation with image optimization...\n');
+  console.log('🚀 Starting blog content generation with image optimization...\n');
 
   try {
     // Create content directory
@@ -189,17 +315,42 @@ async function generateBlogContent() {
     await writeFile(metadataPath, JSON.stringify(metadata, null, 2));
     console.log(`   ✅ Saved metadata with image stats to metadata.json`);
 
-    console.log('\n🎉 Content generation with image optimization completed successfully!');
+    console.log('\n🎉 Blog content generation with image optimization completed successfully!');
     console.log(`📊 Generated ${detailedPosts.length} blog posts`);
-    console.log(`🖼️  Optimized ${totalImages} images`);
+    console.log(`🖼️  Optimized images`);
     console.log(`📁 Content saved to: ${contentDir}`);
     console.log(`🖼️  Images saved to: public/blog-images/`);
+
+    return {
+      totalPosts: processedBlogPosts.length,
+      detailedPosts: detailedPosts.length,
+      processedImages: totalImages,
+    };
   } catch (error) {
-    console.error('\n❌ Content generation failed:');
+    console.error('\n❌ Blog content generation failed:');
+    console.error(error instanceof Error ? error.message : String(error));
+    throw error;
+  }
+}
+
+// Run the content generation
+async function generateAllContent() {
+  console.log('🚀 Starting complete content generation with image optimization...\n');
+  
+  try {
+    const blogStats = await generateBlogContent();
+    const projectStats = await generateProjectContent();
+    
+    console.log('\n🎆 All content generation completed successfully!');
+    console.log('\n📊 Summary:');
+    console.log(`   📝 Blog: ${blogStats.detailedPosts} posts generated`);
+    console.log(`   💡 Projects: ${projectStats.detailedProjects} projects generated`);
+    console.log(`   🖼️  Total images optimized: ${blogStats.processedImages + projectStats.processedImages}`);
+  } catch (error) {
+    console.error('\n❌ Complete content generation failed:');
     console.error(error instanceof Error ? error.message : String(error));
     process.exit(1);
   }
 }
 
-// Run the content generation
-generateBlogContent();
+generateAllContent();

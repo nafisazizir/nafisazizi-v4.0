@@ -14,6 +14,7 @@
     "test:notion": "tsx scripts/test-notion.ts",
     "test:content": "tsx scripts/test-content.ts",
     "test:images": "tsx scripts/test-images.ts",
+    "test:projects": "tsx scripts/test-projects.ts",
     "generate:content": "tsx scripts/generate-content.ts"
   },
   "dependencies": {

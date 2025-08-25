@@ -11,6 +11,10 @@ if (!process.env.NOTION_BLOG_DATABASE_ID) {
   throw new Error('NOTION_BLOG_DATABASE_ID is required');
 }
 
+if (!process.env.NOTION_PROJECTS_DATABASE_ID) {
+  throw new Error('NOTION_PROJECTS_DATABASE_ID is required');
+}
+
 // Initialize Notion client
 export const notion = new Client({
   auth: process.env.NOTION_TOKEN,
@@ -23,3 +27,4 @@ export const n2m = new NotionToMarkdown({
 
 // Database IDs
 export const BLOG_DATABASE_ID = process.env.NOTION_BLOG_DATABASE_ID;
+export const PROJECTS_DATABASE_ID = process.env.NOTION_PROJECTS_DATABASE_ID;
