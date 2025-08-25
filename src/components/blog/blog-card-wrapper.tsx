@@ -1,7 +1,8 @@
 // src/components/blog/blog-card-wrapper.tsx
 import { PostCard } from '@/components/posts';
-import { BlogPostPreview } from '@/lib/notion';
+
 import { getContentConfig } from '@/lib/content-config';
+import { BlogPostPreview } from '@/lib/notion';
 
 interface BlogCardProps {
   post: BlogPostPreview;

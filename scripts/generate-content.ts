@@ -10,9 +10,11 @@ import { fileURLToPath } from 'url';
 
 import { ImageProcessor, extractImageUrls, replaceImageUrls } from '../src/lib/images/index.js';
 import { getAllBlogPosts, getAllBlogSlugs, getBlogPostBySlug } from '../src/lib/notion/index.js';
-import { getAllProjects, getAllProjectSlugs, getProjectBySlug } from '../src/lib/notion/projects.js';
-import type { BlogPost } from '../src/lib/notion/types.js';
-import type { Project } from '../src/lib/notion/project-types.js';
+import {
+  getAllProjectSlugs,
+  getAllProjects,
+  getProjectBySlug,
+} from '../src/lib/notion/projects.js';
 
 // Get the directory of this script
 const __filename = fileURLToPath(import.meta.url);
@@ -29,10 +31,14 @@ async function ensureDirectoryExists(dirPath: string) {
   }
 }
 
-async function processPostImages<T extends { title: string; content: string; coverImage: string | null; blurDataURL: string | null }>(
-  post: T,
-  imageProcessor: ImageProcessor,
-): Promise<T> {
+async function processPostImages<
+  T extends {
+    title: string;
+    content: string;
+    coverImage: string | null;
+    blurDataURL: string | null;
+  },
+>(post: T, imageProcessor: ImageProcessor): Promise<T> {
   console.log(`     🖼️  Processing images for "${post.title}"...`);
 
   const imagesToProcess: string[] = [];
@@ -336,16 +342,18 @@ async function generateBlogContent() {
 // Run the content generation
 async function generateAllContent() {
   console.log('🚀 Starting complete content generation with image optimization...\n');
-  
+
   try {
     const blogStats = await generateBlogContent();
     const projectStats = await generateProjectContent();
-    
+
     console.log('\n🎆 All content generation completed successfully!');
     console.log('\n📊 Summary:');
     console.log(`   📝 Blog: ${blogStats.detailedPosts} posts generated`);
     console.log(`   💡 Projects: ${projectStats.detailedProjects} projects generated`);
-    console.log(`   🖼️  Total images optimized: ${blogStats.processedImages + projectStats.processedImages}`);
+    console.log(
+      `   🖼️  Total images optimized: ${blogStats.processedImages + projectStats.processedImages}`,
+    );
   } catch (error) {
     console.error('\n❌ Complete content generation failed:');
     console.error(error instanceof Error ? error.message : String(error));

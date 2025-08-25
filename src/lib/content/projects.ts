@@ -2,10 +2,9 @@
 // src/lib/content/projects.ts
 // Static content service that reads from pre-generated project files
 // Falls back to Notion API in development if files don't exist
+import type { BasePostPreview, BasePostWithContent } from '@/types/content';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
-
-import type { BasePostPreview, BasePostWithContent } from '@/types/content';
 
 const CONTENT_DIR = join(process.cwd(), 'content', 'projects');
 const isDevelopment = process.env.NODE_ENV === 'development';
@@ -31,7 +30,9 @@ export class ProjectContentService {
       if (error.code === 'ENOENT') {
         // In development, fall back to Notion API if content files don't exist
         if (isDevelopment) {
-          console.warn(`⚠️  Project content file ${filename} not found, falling back to Notion API`);
+          console.warn(
+            `⚠️  Project content file ${filename} not found, falling back to Notion API`,
+          );
           throw new Error('FALLBACK_TO_NOTION');
         }
         throw new Error(
@@ -58,7 +59,10 @@ export class ProjectContentService {
     try {
       return await this.readJsonFile<BasePostWithContent>(`${slug}.json`);
     } catch (error: any) {
-      if (error.message.includes('Project content not found') || error.message === 'FALLBACK_TO_NOTION') {
+      if (
+        error.message.includes('Project content not found') ||
+        error.message === 'FALLBACK_TO_NOTION'
+      ) {
         if (isDevelopment && error.message === 'FALLBACK_TO_NOTION') {
           const { getProjectBySlug: getNotionProject } = await import('@/lib/notion/projects');
           return getNotionProject(slug);

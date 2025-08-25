@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { TerminalAnimation } from '@/components/terminal-animation';
 import { Button } from '@/components/ui/button';
@@ -39,8 +40,9 @@ export default function Home() {
           <p>
             Feel free to explore, search around, or reach out via{' '}
             <a href="mailto:hello@nafisazizi.com">email</a> if something catches your eye. For
-            professional inquiries, my work speaks through my <a href="/projects">portfolio</a>,
-            though fair warning - my <a href="https://resume.nafisazizi.com/">resume</a> and{' '}
+            professional inquiries, my work speaks through my{' '}
+            <Link href="/projects">portofolio</Link> , though fair warning - my{' '}
+            <a href="https://resume.nafisazizi.com/">resume</a> and{' '}
             <a href="https://www.linkedin.com/in/nafisazizi/">LinkedIn</a> are perpetually under
             construction.
           </p>

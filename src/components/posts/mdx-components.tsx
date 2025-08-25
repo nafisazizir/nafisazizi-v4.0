@@ -28,7 +28,7 @@ function OptimizedImage({ src, alt = '', width, height }: OptimizedImageProps) {
   }
 
   // Fallback for external images
-  return <img src={src} alt={alt} className="h-auto max-w-full rounded-lg" loading="lazy" />;
+  return <Image src={src} alt={alt} className="h-auto max-w-full rounded-lg" loading="lazy" />;
 }
 
 export const mdxComponents: MDXComponents = {

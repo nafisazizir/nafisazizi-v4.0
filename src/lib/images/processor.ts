@@ -105,7 +105,7 @@ export class ImageProcessor {
       try {
         // Get existing file metadata
         const metadata = await sharp(localPath).metadata();
-        const stats = await sharp(localPath).stats();
+        const stats: any = await sharp(localPath).stats();
 
         const result: ProcessedImage = {
           originalUrl: url,

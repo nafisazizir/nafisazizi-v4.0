@@ -1,5 +1,6 @@
 // src/components/projects/project-filter.tsx
 import { PostFilter } from '@/components/posts';
+
 import { ProjectPreview } from '@/lib/notion/project-types';
 
 interface ProjectFilterProps {

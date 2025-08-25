@@ -1,10 +1,9 @@
 // src/lib/notion/types.ts
+import { BasePostPreview, BasePostWithContent } from '@/types/content';
 
-import { BasePost, BasePostPreview, BasePostWithContent } from '@/types/content';
+export type BlogPost = BasePostWithContent;
 
-export interface BlogPost extends BasePostWithContent {}
-
-export interface BlogPostPreview extends BasePostPreview {}
+export type BlogPostPreview = BasePostPreview;
 
 // Keep the original interfaces for backward compatibility
 export interface LegacyBlogPost {
@@ -29,6 +28,7 @@ export interface LegacyBlogPostPreview extends Omit<LegacyBlogPost, 'content'> {
 export interface NotionProperty {
   id: string;
   type: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 

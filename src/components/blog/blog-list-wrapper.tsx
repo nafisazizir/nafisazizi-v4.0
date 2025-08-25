@@ -1,7 +1,8 @@
 // src/components/blog/blog-list-wrapper.tsx
 import { PostList } from '@/components/posts';
-import { BlogPostPreview } from '@/lib/notion';
+
 import { getContentConfig } from '@/lib/content-config';
+import { BlogPostPreview } from '@/lib/notion';
 
 interface BlogListProps {
   posts: BlogPostPreview[];

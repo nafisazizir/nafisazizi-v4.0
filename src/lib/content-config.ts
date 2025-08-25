@@ -1,5 +1,4 @@
 // src/lib/content-config.ts
-
 import { ContentConfig, ContentType } from '@/types/content';
 
 export function getContentConfig(type: ContentType): ContentConfig {

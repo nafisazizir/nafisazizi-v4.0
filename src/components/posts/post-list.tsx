@@ -1,54 +1,49 @@
-'use client'
+'use client';
 
-import { useState, useMemo } from 'react'
-import { PostCard, PostFilter } from '@/components/posts'
-import { BasePostPreview, ContentConfig } from '@/types/content'
+import { useMemo, useState } from 'react';
+
+import { BasePostPreview, ContentConfig } from '@/types/content';
+
+import { PostCard, PostFilter } from '@/components/posts';
 
 interface PostListProps {
-  posts: BasePostPreview[]
-  config: ContentConfig
+  posts: BasePostPreview[];
+  config: ContentConfig;
 }
 
 export function PostList({ posts, config }: PostListProps) {
-  const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   // Filter posts based on selected tags
   const filteredPosts = useMemo(() => {
     if (selectedTags.length === 0) {
-      return posts
+      return posts;
     }
-    
-    return posts.filter((post) =>
-      selectedTags.some((tag) => post.tags.includes(tag))
-    )
-  }, [posts, selectedTags])
+
+    return posts.filter((post) => selectedTags.some((tag) => post.tags.includes(tag)));
+  }, [posts, selectedTags]);
 
   const handleTagsChange = (tags: string[]) => {
-    setSelectedTags(tags)
-  }
+    setSelectedTags(tags);
+  };
 
   return (
     <div className="space-y-8">
       {/* Filter Section */}
-      <PostFilter
-        posts={posts}
-        selectedTags={selectedTags}
-        onTagsChange={handleTagsChange}
-      />
+      <PostFilter posts={posts} selectedTags={selectedTags} onTagsChange={handleTagsChange} />
 
       {/* Posts Grid */}
       {filteredPosts.length === 0 ? (
         <div className="py-12 text-center">
           <p className="text-muted-foreground text-lg">
-            {selectedTags.length > 0 
+            {selectedTags.length > 0
               ? `No ${config.plural} found matching the selected filters.`
-              : `No ${config.plural} published yet. Check back soon!`
-            }
+              : `No ${config.plural} published yet. Check back soon!`}
           </p>
           {selectedTags.length > 0 && (
-            <button 
+            <button
               onClick={() => setSelectedTags([])}
-              className="mt-2 text-primary hover:underline"
+              className="text-primary mt-2 hover:underline"
             >
               Clear filters
             </button>
@@ -63,16 +58,18 @@ export function PostList({ posts, config }: PostListProps) {
           </div>
 
           {/* Results count */}
-          <div className="text-center text-sm text-muted-foreground">
-            Showing {filteredPosts.length} of {posts.length} {posts.length === 1 ? config.singular : config.plural}
+          <div className="text-muted-foreground text-center text-sm">
+            Showing {filteredPosts.length} of {posts.length}{' '}
+            {posts.length === 1 ? config.singular : config.plural}
             {selectedTags.length > 0 && (
               <span>
-                {' '}matching {selectedTags.length} tag{selectedTags.length !== 1 ? 's' : ''}
+                {' '}
+                matching {selectedTags.length} tag{selectedTags.length !== 1 ? 's' : ''}
               </span>
             )}
           </div>
         </>
       )}
     </div>
-  )
+  );
 }

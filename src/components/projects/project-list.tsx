@@ -1,7 +1,8 @@
 // src/components/projects/project-list.tsx
 import { PostList } from '@/components/posts';
-import { ProjectPreview } from '@/lib/notion/project-types';
+
 import { getContentConfig } from '@/lib/content-config';
+import { ProjectPreview } from '@/lib/notion/project-types';
 
 interface ProjectListProps {
   posts: ProjectPreview[];

@@ -1,11 +1,11 @@
 // src/components/posts/post-content.tsx
+import { BasePostWithContent } from '@/types/content';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import Image from 'next/image';
 import rehypePrism from 'rehype-prism-plus';
 import remarkBreaks from 'remark-breaks';
 import remarkGfm from 'remark-gfm';
 
-import { BasePostWithContent } from '@/types/content';
 import { Badge } from '@/components/ui/badge';
 
 import { mdxComponents } from './mdx-components';

@@ -1,11 +1,14 @@
 #!/usr/bin/env tsx
 // scripts/test-projects.ts
 // Test script to verify project implementation is working correctly
-
 import 'dotenv/config';
 
-import { getAllProjects, getProjectBySlug, getAllProjectSlugs } from '../src/lib/content/projects.js';
 import { getContentConfig } from '../src/lib/content-config.js';
+import {
+  getAllProjectSlugs,
+  getAllProjects,
+  getProjectBySlug,
+} from '../src/lib/content/projects.js';
 
 async function testProjectImplementation() {
   console.log('🧪 Testing Project Implementation...\n');
@@ -23,14 +26,17 @@ async function testProjectImplementation() {
     // Test 2: Environment Variables
     console.log('\n2️⃣  Testing environment variables...');
     console.log('   ✅ NOTION_TOKEN:', process.env.NOTION_TOKEN ? '✓ Set' : '❌ Missing');
-    console.log('   ✅ NOTION_PROJECTS_DATABASE_ID:', process.env.NOTION_PROJECTS_DATABASE_ID ? '✓ Set' : '❌ Missing');
+    console.log(
+      '   ✅ NOTION_PROJECTS_DATABASE_ID:',
+      process.env.NOTION_PROJECTS_DATABASE_ID ? '✓ Set' : '❌ Missing',
+    );
 
     // Test 3: Content Service (Fallback Mode)
     console.log('\n3️⃣  Testing project content service (fallback to Notion)...');
     try {
       const projects = await getAllProjects();
       console.log(`   ✅ Successfully fetched ${projects.length} projects`);
-      
+
       if (projects.length > 0) {
         const firstProject = projects[0];
         console.log(`   ✅ First project: "${firstProject.title}"`);
@@ -38,7 +44,9 @@ async function testProjectImplementation() {
         console.log(`   ✅ Project tags: [${firstProject.tags.join(', ')}]`);
       }
     } catch (error) {
-      console.log(`   ⚠️  Content service error (expected in development): ${error instanceof Error ? error.message : String(error)}`);
+      console.log(
+        `   ⚠️  Content service error (expected in development): ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
 
     // Test 4: Project Slugs
@@ -50,7 +58,9 @@ async function testProjectImplementation() {
         console.log(`   ✅ Sample slugs: [${slugs.slice(0, 3).join(', ')}]`);
       }
     } catch (error) {
-      console.log(`   ⚠️  Slugs error (expected in development): ${error instanceof Error ? error.message : String(error)}`);
+      console.log(
+        `   ⚠️  Slugs error (expected in development): ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
 
     // Test 5: Individual Project
@@ -61,13 +71,17 @@ async function testProjectImplementation() {
         const project = await getProjectBySlug(slugs[0]);
         if (project) {
           console.log(`   ✅ Successfully fetched project: "${project.title}"`);
-          console.log(`   ✅ Has content: ${project.content ? project.content.length + ' characters' : 'No content'}`);
+          console.log(
+            `   ✅ Has content: ${project.content ? project.content.length + ' characters' : 'No content'}`,
+          );
         }
       } else {
         console.log('   ℹ️  No projects available to test individual fetch');
       }
     } catch (error) {
-      console.log(`   ⚠️  Individual project error (expected in development): ${error instanceof Error ? error.message : String(error)}`);
+      console.log(
+        `   ⚠️  Individual project error (expected in development): ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
 
     console.log('\n🎉 Project implementation test completed!');
@@ -77,10 +91,9 @@ async function testProjectImplementation() {
     console.log('   ✅ Content service functional (fallback mode)');
     console.log('   ✅ Project pages ready');
     console.log('   ✅ Components properly wired');
-    
+
     console.log('\n🚀 Ready to use! To generate project content:');
     console.log('   npm run generate:content');
-
   } catch (error) {
     console.error('\n❌ Test failed:', error instanceof Error ? error.message : String(error));
     process.exit(1);

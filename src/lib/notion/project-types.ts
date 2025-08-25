@@ -1,10 +1,9 @@
 // src/lib/notion/project-types.ts
+import {  BasePostPreview, BasePostWithContent } from '@/types/content';
 
-import { BasePost, BasePostPreview, BasePostWithContent } from '@/types/content';
+export type Project = BasePostWithContent
 
-export interface Project extends BasePostWithContent {}
-
-export interface ProjectPreview extends BasePostPreview {}
+export type ProjectPreview = BasePostPreview
 
 // Keep the original interfaces for backward compatibility if needed later
 export interface LegacyProject {
