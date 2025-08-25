@@ -1,6 +1,13 @@
 // src/lib/notion/types.ts
 
-export interface BlogPost {
+import { BasePost, BasePostPreview, BasePostWithContent } from '@/types/content';
+
+export interface BlogPost extends BasePostWithContent {}
+
+export interface BlogPostPreview extends BasePostPreview {}
+
+// Keep the original interfaces for backward compatibility
+export interface LegacyBlogPost {
   id: string;
   title: string;
   slug: string;
@@ -15,7 +22,7 @@ export interface BlogPost {
   editedDate: string | null;
 }
 
-export interface BlogPostPreview extends Omit<BlogPost, 'content'> {
+export interface LegacyBlogPostPreview extends Omit<LegacyBlogPost, 'content'> {
   excerpt?: string;
 }
 

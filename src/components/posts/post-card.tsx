@@ -1,19 +1,19 @@
-// src/components/blog/blog-card.tsx
+// src/components/posts/post-card.tsx
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { BlogPostPreview } from '@/lib/notion';
+import { BasePostPreview, ContentConfig } from '@/types/content';
 import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
 
-import { Badge } from '../ui/badge';
-
-interface BlogCardProps {
-  post: BlogPostPreview;
+interface PostCardProps {
+  post: BasePostPreview;
+  config: ContentConfig;
   className?: string;
 }
 
-export function BlogCard({ post, className }: BlogCardProps) {
+export function PostCard({ post, config, className }: PostCardProps) {
   const formattedDate = post.publishedDate
     ? new Date(post.publishedDate).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -28,7 +28,7 @@ export function BlogCard({ post, className }: BlogCardProps) {
 
   return (
     <article className={cn('group', className)}>
-      <Link href={`/blog/${post.slug}`} className="block">
+      <Link href={`${config.basePath}/${post.slug}`} className="block">
         <div className="space-y-4">
           {/* Cover Image */}
           {post.coverImage && (
@@ -56,7 +56,7 @@ export function BlogCard({ post, className }: BlogCardProps) {
                   <span>•</span>
                   <div className="flex gap-1">
                     {post.tags.slice(0, 2).map((tag) => (
-                      <Badge key={tag} variant="secondary">
+                      <Badge key={tag} variant="secondary" className="text-xs">
                         {tag}
                       </Badge>
                     ))}

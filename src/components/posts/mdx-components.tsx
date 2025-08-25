@@ -1,4 +1,4 @@
-// src/components/blog/mdx-components.tsx
+// src/components/posts/mdx-components.tsx
 // Custom MDX components for optimized rendering
 import { MDXComponents } from 'mdx/types';
 import Image from 'next/image';
@@ -11,8 +11,8 @@ interface OptimizedImageProps {
 }
 
 function OptimizedImage({ src, alt = '', width, height }: OptimizedImageProps) {
-  // Check if it's a local optimized image
-  const isLocalImage = src.startsWith('/blog-images/');
+  // Check if it's a local optimized image (could be blog or project images)
+  const isLocalImage = src.startsWith('/blog-images/') || src.startsWith('/project-images/');
 
   if (isLocalImage) {
     return (

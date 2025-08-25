@@ -1,14 +1,15 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { BlogCard, BlogFilter } from '@/components/blog'
-import { BlogPostPreview } from '@/lib/notion'
+import { PostCard, PostFilter } from '@/components/posts'
+import { BasePostPreview, ContentConfig } from '@/types/content'
 
-interface BlogListProps {
-  posts: BlogPostPreview[]
+interface PostListProps {
+  posts: BasePostPreview[]
+  config: ContentConfig
 }
 
-export function BlogList({ posts }: BlogListProps) {
+export function PostList({ posts, config }: PostListProps) {
   const [selectedTags, setSelectedTags] = useState<string[]>([])
 
   // Filter posts based on selected tags
@@ -29,7 +30,7 @@ export function BlogList({ posts }: BlogListProps) {
   return (
     <div className="space-y-8">
       {/* Filter Section */}
-      <BlogFilter
+      <PostFilter
         posts={posts}
         selectedTags={selectedTags}
         onTagsChange={handleTagsChange}
@@ -40,8 +41,8 @@ export function BlogList({ posts }: BlogListProps) {
         <div className="py-12 text-center">
           <p className="text-muted-foreground text-lg">
             {selectedTags.length > 0 
-              ? "No blog posts found matching the selected filters."
-              : "No blog posts published yet. Check back soon!"
+              ? `No ${config.plural} found matching the selected filters.`
+              : `No ${config.plural} published yet. Check back soon!`
             }
           </p>
           {selectedTags.length > 0 && (
@@ -57,13 +58,13 @@ export function BlogList({ posts }: BlogListProps) {
         <>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {filteredPosts.map((post) => (
-              <BlogCard key={post.id} post={post} />
+              <PostCard key={post.id} post={post} config={config} />
             ))}
           </div>
 
           {/* Results count */}
           <div className="text-center text-sm text-muted-foreground">
-            Showing {filteredPosts.length} of {posts.length} post{posts.length !== 1 ? 's' : ''}
+            Showing {filteredPosts.length} of {posts.length} {posts.length === 1 ? config.singular : config.plural}
             {selectedTags.length > 0 && (
               <span>
                 {' '}matching {selectedTags.length} tag{selectedTags.length !== 1 ? 's' : ''}

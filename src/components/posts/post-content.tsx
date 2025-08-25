@@ -1,20 +1,20 @@
-// src/components/blog/blog-content.tsx
+// src/components/posts/post-content.tsx
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import Image from 'next/image';
 import rehypePrism from 'rehype-prism-plus';
 import remarkBreaks from 'remark-breaks';
 import remarkGfm from 'remark-gfm';
 
-import { BlogPost } from '@/lib/notion';
+import { BasePostWithContent } from '@/types/content';
+import { Badge } from '@/components/ui/badge';
 
 import { mdxComponents } from './mdx-components';
-import { Badge } from '../ui/badge';
 
-interface BlogContentProps {
-  post: BlogPost;
+interface PostContentProps {
+  post: BasePostWithContent;
 }
 
-export function BlogContent({ post }: BlogContentProps) {
+export function PostContent({ post }: PostContentProps) {
   const formattedDate = post.publishedDate
     ? new Date(post.publishedDate).toLocaleDateString('en-US', {
         year: 'numeric',

@@ -1,5 +1,6 @@
 'use client';
 
+import { BasePostPreview } from '@/types/content';
 import { Filter, X } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
@@ -13,15 +14,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { BlogPostPreview } from '@/lib/notion';
-
-interface BlogFilterProps {
-  posts: BlogPostPreview[];
+interface PostFilterProps {
+  posts: BasePostPreview[];
   selectedTags: string[];
   onTagsChange: (tags: string[]) => void;
 }
 
-export function BlogFilter({ posts, selectedTags, onTagsChange }: BlogFilterProps) {
+export function PostFilter({ posts, selectedTags, onTagsChange }: PostFilterProps) {
   // Extract all unique tags from posts
   const allTags = Array.from(new Set(posts.flatMap((post) => post.tags))).sort();
 
@@ -42,7 +41,7 @@ export function BlogFilter({ posts, selectedTags, onTagsChange }: BlogFilterProp
   };
 
   return (
-    <div className="flex flex-col-reverse items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex items-center justify-between gap-4">
       {/* Active Filter Chips - Far Left */}
       <div className="flex flex-1 flex-wrap items-center gap-2">
         {selectedTags.map((tag) => (
