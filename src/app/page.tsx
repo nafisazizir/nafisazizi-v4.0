@@ -5,6 +5,21 @@ import { TerminalAnimation } from '@/components/terminal-animation';
 import { Button } from '@/components/ui/button';
 
 export default function Home() {
+  const emailTemplate = {
+    to: 'hello@nafisazizi.com',
+    subject: "Let's have a chat!",
+    body: `Hi Nafis,
+
+I'm reaching out because <your reason here>. 
+My name is <Your Name>, and I thought it might be great to connect. 
+
+Somewhere along the line, maybe we can have a chat or something.`,
+  };
+
+  const mailToLink = `mailto:${emailTemplate.to}?subject=${encodeURIComponent(
+    emailTemplate.subject,
+  )}&body=${encodeURIComponent(emailTemplate.body)}`;
+
   return (
     <div className="pb-12">
       <div className="flex h-[calc(100vh-64px)] flex-col items-center justify-center gap-8">
@@ -67,9 +82,12 @@ export default function Home() {
         <h2 className="font-playfair text-foreground mb-8 text-3xl font-medium tracking-tight sm:text-4xl md:mb-10 lg:text-5xl xl:text-6xl">
           Let&apos;s have a <span className="font-semibold italic">chat</span>
         </h2>
-        <Button size="lg" className="mb-4 cursor-pointer text-sm sm:text-base">
-          Chat with me
-        </Button>
+
+        <Link href={mailToLink}>
+          <Button size="lg" className="mb-4 cursor-pointer text-sm sm:text-base">
+            Chat with me
+          </Button>
+        </Link>
         <p className="text-muted-foreground text-xs sm:text-sm lg:text-base">
           My local time{' '}
           <span className="text-foreground font-medium">
