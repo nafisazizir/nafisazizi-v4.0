@@ -1,8 +1,45 @@
 import Image from 'next/image';
 
+import { AboutContent } from '@/components/about';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
-export default function About() {
+import { getAboutPage } from '@/lib/content';
+
+export async function generateMetadata() {
+  try {
+    const aboutPage = await getAboutPage();
+    return {
+      title: 'About Me | Nafis Azizi Riza',
+      description:
+        'Learn more about Nafis Azizi Riza - Software Engineer passionate about building digital experiences that make a difference.',
+      openGraph: {
+        title: 'About Me | Nafis Azizi Riza',
+        description:
+          'Learn more about Nafis Azizi Riza - Software Engineer passionate about building digital experiences that make a difference.',
+        type: 'website',
+        images: aboutPage.coverImage ? [aboutPage.coverImage] : undefined,
+      },
+    };
+  } catch (error) {
+    console.log('Error:', error);
+    return {
+      title: 'About Me | Nafis Azizi Riza',
+      description:
+        'Learn more about Nafis Azizi Riza - Software Engineer passionate about building digital experiences that make a difference.',
+    };
+  }
+}
+
+export default async function About() {
+  // Fetch the About page content from Notion
+  let aboutPage;
+  try {
+    aboutPage = await getAboutPage();
+  } catch (error) {
+    console.error('Failed to load About page:', error);
+    aboutPage = null;
+  }
+
   const images = [
     {
       filename: 'me.png',
@@ -42,12 +79,12 @@ export default function About() {
   ];
 
   return (
-    <div className="py-12">
+    <div className="m-auto max-w-3xl py-12">
       <div className="mx-auto max-w-4xl">
         <h1 className="text-foreground font-playfair text-3xl tracking-tight sm:text-4xl">
           About <span className="font-bold italic">Me</span>
         </h1>
-        <div className="text-muted-foreground mt-8 text-lg">
+        <div className="mt-8 text-lg">
           <ScrollArea className="w-full pb-3">
             <div className="flex w-max space-x-4">
               {images.map((image, index) => (
@@ -74,7 +111,19 @@ export default function About() {
             </div>
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
-          <p>About page content coming soon...</p>
+
+          {/* Notion Content */}
+          <div className="mt-6">
+            {aboutPage ? (
+              <AboutContent page={aboutPage} />
+            ) : (
+              <div className="py-8 text-center">
+                <p className="text-muted-foreground">
+                  Unable to load content. Please try again later.
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
