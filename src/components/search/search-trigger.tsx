@@ -1,8 +1,9 @@
 'use client';
 
+import { trackSearchOpen } from '@/lib/analytics';
+
 import { Button } from '../ui/button';
 import { useSearch } from './search-context';
-import { trackSearchOpen } from '@/lib/analytics';
 
 export function SearchTrigger() {
   const { openSearch } = useSearch();
@@ -15,10 +16,10 @@ export function SearchTrigger() {
   };
 
   return (
-    <Button 
+    <Button
       onClick={handleClick}
-      size={'sm'} 
-      variant={'secondary'} 
+      size={'sm'}
+      variant={'secondary'}
       className="text-muted-foreground group shadow-none"
     >
       <span className="inline font-normal">Search...</span>

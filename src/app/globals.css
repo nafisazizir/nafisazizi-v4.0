@@ -165,6 +165,15 @@ body {
     @apply text-primary hover:text-primary/70 transition-all duration-100 ease-in-out hover:underline;
   }
 
+  /* Giscus styling */
+  .giscus-container {
+    @apply w-full;
+  }
+
+  .giscus-container iframe {
+    @apply w-full rounded-lg;
+  }
+
   .line-clamp-1 {
     overflow: hidden;
     display: -webkit-box;

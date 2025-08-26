@@ -105,3 +105,12 @@ export const trackTimeOnPage = (pageTitle: string, timeSpent: number) => {
 export const trackScrollDepth = (depth: number) => {
   trackEvent('scroll', 'depth', `${depth}%`, depth);
 };
+
+// Comment interaction tracking
+export const trackCommentView = (postTitle: string) => {
+  trackEvent('view', 'comments', postTitle);
+};
+
+export const trackCommentInteraction = (action: string, postTitle: string) => {
+  trackEvent(action, 'comments', postTitle);
+};

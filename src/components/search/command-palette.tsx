@@ -27,6 +27,7 @@ import {
 } from '@/components/ui/command';
 
 import { trackEvent, trackSearch } from '@/lib/analytics';
+
 import { useSearch } from './search-context';
 
 // Types for search items
