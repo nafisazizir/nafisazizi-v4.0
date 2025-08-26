@@ -27,6 +27,7 @@ import {
 } from '@/components/ui/command';
 
 import { trackEvent, trackSearch } from '@/lib/analytics';
+import { useSearch } from './search-context';
 
 // Types for search items
 interface SearchItem {
@@ -116,7 +117,7 @@ const quickActions: SearchItem[] = [
 ];
 
 export function CommandPalette() {
-  const [open, setOpen] = useState(false);
+  const { isOpen, closeSearch, toggleSearch } = useSearch();
   const [blogPosts, setBlogPosts] = useState<SearchItem[]>([]);
   const [projects, setProjects] = useState<SearchItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -124,10 +125,10 @@ export function CommandPalette() {
 
   // Load blog posts and projects via API when command palette opens
   useEffect(() => {
-    if (open && (blogPosts.length === 0 || projects.length === 0)) {
+    if (isOpen && (blogPosts.length === 0 || projects.length === 0)) {
       loadContent();
     }
-  }, [open, blogPosts.length, projects.length]);
+  }, [isOpen, blogPosts.length, projects.length]);
 
   const loadContent = async () => {
     setIsLoading(true);
@@ -175,16 +176,16 @@ export function CommandPalette() {
     const down = (e: KeyboardEvent) => {
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        setOpen((open) => !open);
+        toggleSearch();
       }
     };
 
     document.addEventListener('keydown', down);
     return () => document.removeEventListener('keydown', down);
-  }, []);
+  }, [toggleSearch]);
 
   const handleSelect = (item: SearchItem) => {
-    setOpen(false);
+    closeSearch();
 
     // Track the search/selection
     trackSearch(item.title);
@@ -202,8 +203,8 @@ export function CommandPalette() {
 
   return (
     <CommandDialog
-      open={open}
-      onOpenChange={setOpen}
+      open={isOpen}
+      onOpenChange={closeSearch}
       className="outline-border/60 border-0 outline-4"
     >
       <CommandInput

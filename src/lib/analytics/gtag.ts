@@ -89,6 +89,10 @@ export const trackSearch = (searchTerm: string) => {
   trackEvent('search', 'command_palette', searchTerm);
 };
 
+export const trackSearchOpen = () => {
+  trackEvent('open', 'command_palette', 'search_trigger_click');
+};
+
 export const trackExternalLink = (url: string, linkText?: string) => {
   trackEvent('click', 'external_link', linkText || url);
 };

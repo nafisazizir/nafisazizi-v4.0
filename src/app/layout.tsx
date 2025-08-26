@@ -6,7 +6,7 @@ import GoogleAnalytics from '@/components/analytics/google-analytics';
 import { PageAnalytics } from '@/components/analytics/page-analytics';
 import { Footer } from '@/components/layout/footer';
 import { Header } from '@/components/layout/header';
-import { CommandPalette } from '@/components/search';
+import { CommandPalette, SearchProvider } from '@/components/search';
 import { ThemeProvider } from '@/components/theme-provider';
 
 import './globals.css';
@@ -48,19 +48,21 @@ export default function RootLayout({
       <body className={`flex min-h-screen flex-col`}>
         <GoogleAnalytics />
         <PageAnalytics pageTitle="Nafis Azizi Riza" />
-        <CommandPalette />
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Header />
-          <main className="container mx-auto max-w-6xl flex-grow px-4 sm:px-6 lg:px-8">
-            {children}
-          </main>
-          <Footer />
-        </ThemeProvider>
+        <SearchProvider>
+          <CommandPalette />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Header />
+            <main className="container mx-auto max-w-6xl flex-grow px-4 sm:px-6 lg:px-8">
+              {children}
+            </main>
+            <Footer />
+          </ThemeProvider>
+        </SearchProvider>
       </body>
     </html>
   );
