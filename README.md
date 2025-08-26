@@ -1,100 +1,256 @@
-# Nafis Azizi Portfolio v4.0
+# Nafis Azizi Riza
 
-A modern, minimalist portfolio website built with Next.js 15, TypeScript, and Tailwind CSS.
+A modern, performant personal portfolio and blog built with Next.js 15, featuring Notion CMS integration, advanced analytics, and a comprehensive search system.
 
-## Phase 1 Complete ✅
+## ✨ Features
 
-### Layout & Navigation
+### 🎨 **Modern Design System**
 
-- **Header Component**: Clean, minimal header with logo and navigation
-- **Footer Component**: Simple footer with social links
-- **Mobile Navigation**: Sheet-based mobile menu using shadcn/ui
-- **Theme Support**: Dark/light mode toggle with system preference detection
-- **Typography**: Inter font properly configured with all weights (100-900)
-- **Responsive Design**: Mobile-first approach with proper breakpoints
+- **Dark/Light Theme** - System-aware theme with smooth transitions
+- **Typography** - Inter & Playfair Display fonts with custom weight configuration
+- **Responsive Design** - Mobile-first approach with Tailwind CSS 4
+- **Component Library** - Built with shadcn/ui and Radix UI primitives
 
-### Components Created
+### 📝 **Content Management**
 
-- `components/ui/button.tsx` - Shadcn button component
-- `components/ui/sheet.tsx` - Shadcn sheet component for mobile navigation
-- `components/theme-provider.tsx` - Theme context provider
-- `components/theme-toggle.tsx` - Dark/light mode toggle
-- `components/layout/header.tsx` - Main header with navigation
-- `components/layout/footer.tsx` - Footer with social links
-- `components/layout/mobile-navigation.tsx` - Mobile sheet navigation
+- **Notion CMS Integration** - Blog posts and projects managed via Notion
+- **Static Generation** - Pre-build content generation with image optimization
+- **MDX Support** - Rich content with syntax highlighting and GitHub Flavored Markdown
+- **Image Processing** - Automatic WebP conversion, resizing, and blur placeholders
 
-### Pages Created
+### 🔍 **Advanced Search**
 
-- `/` - Home page with hero section
-- `/about` - About page (placeholder)
-- `/projects` - Projects page (placeholder)
-- `/blog` - Blog page (placeholder)
+- **CMD+K Search Palette** - Fast, keyboard-driven search across all content
+- **Real-time Results** - Search through pages, blog posts, projects, and actions
+- **Analytics Integration** - Track search usage and popular queries
 
-### Dependencies Added
+### 📊 **Comprehensive Analytics**
 
-- `@radix-ui/react-dialog` - For sheet component
-- `@radix-ui/react-slot` - For button component
-- `next-themes` - For theme management
+- **Google Analytics 4** - Full GA4 integration with custom event tracking
+- **User Behavior Tracking** - Page views, interactions, scroll depth, and time on page
+- **Conversion Tracking** - Contact attempts, social clicks, and external links
+- **Search Analytics** - Command palette usage and search patterns
 
-## Tech Stack
+### 💬 **Community Features**
 
-- **Framework**: Next.js 15 with App Router
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS 4 with custom CSS properties
-- **UI Components**: shadcn/ui
-- **Icons**: Lucide React
-- **Theme**: Custom color system with dark/light mode support
+- **Giscus Comments** - GitHub Discussions-powered commenting system
+- **Theme-Aware Comments** - Automatically matches site theme
+- **Reaction Support** - Users can react to posts and participate in discussions
 
-## Getting Started
+### 🚀 **Performance & SEO**
 
-1. Install dependencies:
+- **Next.js 15** - Latest App Router with React 19
+- **Static Site Generation** - Build-time content generation for optimal performance
+- **Image Optimization** - Sharp-powered image processing and lazy loading
+- **SEO Optimized** - Proper meta tags, OpenGraph, and structured data
+
+## 🛠 Tech Stack
+
+### **Core Framework**
+
+- **[Next.js 15](https://nextjs.org)** with App Router
+- **[React 19](https://react.dev)** with latest features
+- **[TypeScript](https://typescriptlang.org)** for type safety
+
+### **Styling & UI**
+
+- **[Tailwind CSS 4](https://tailwindcss.com)** with custom design system
+- **[shadcn/ui](https://ui.shadcn.com)** component library
+- **[Radix UI](https://radix-ui.com)** for accessible primitives
+- **[Lucide React](https://lucide.dev)** for icons
+
+### **Content & Data**
+
+- **[Notion API](https://developers.notion.com)** as headless CMS
+- **[MDX](https://mdxjs.com)** for rich content rendering
+- **[Sharp](https://sharp.pixelplumbing.com)** for image optimization
+
+### **Analytics & Integrations**
+
+- **[Google Analytics 4](https://analytics.google.com)** for comprehensive tracking
+- **[Giscus](https://giscus.app)** for GitHub Discussions comments
+- **[cmdk](https://cmdk.paco.me)** for command palette search
+
+## 📁 Project Structure
+
+```
+src/
+├── app/                      # Next.js App Router pages
+│   ├── api/search/          # Search API endpoints
+│   ├── blog/[slug]/         # Dynamic blog post pages
+│   ├── projects/[slug]/     # Dynamic project pages
+│   └── globals.css          # Global styles and design tokens
+├── components/
+│   ├── analytics/           # GA4 tracking components
+│   ├── comments/            # Giscus comment system
+│   ├── search/              # CMD+K search implementation
+│   ├── blog/                # Blog-specific components
+│   ├── projects/            # Project-specific components
+│   ├── posts/               # Shared post components
+│   ├── layout/              # Header, footer, navigation
+│   └── ui/                  # shadcn/ui components
+├── lib/
+│   ├── analytics/           # GA4 configuration and helpers
+│   ├── notion/              # Notion API integration
+│   ├── content/             # Static content services
+│   └── images/              # Image processing utilities
+└── types/                   # TypeScript type definitions
+```
+
+## 🚀 Getting Started
+
+### **Prerequisites**
+
+- Node.js 18+ and npm
+- Notion workspace with API access
+- Google Analytics 4 property (optional)
+
+### **Installation**
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/nafisazizir/nafisazizi-v4.0.git
+   cd nafisazizi-v4.0
+   ```
+
+2. **Install dependencies**
 
    ```bash
    npm install
    ```
 
-2. Run the development server:
+3. **Environment Setup**
 
+   ```bash
+   cp .env.example .env.local
+   ```
+
+   Configure the following variables:
+
+   ```env
+   # Notion CMS
+   NOTION_TOKEN=your_notion_integration_token
+   NOTION_BLOG_DATABASE_ID=your_blog_database_id
+   NOTION_PROJECTS_DATABASE_ID=your_projects_database_id
+
+   # Analytics (optional)
+   NEXT_PUBLIC_GA_MEASUREMENT_ID=your_ga4_measurement_id
+
+   # Comments (optional)
+   NEXT_PUBLIC_GISCUS_REPO=your-username/your-repo
+   NEXT_PUBLIC_GISCUS_REPO_ID=your_repo_id
+   NEXT_PUBLIC_GISCUS_CATEGORY_ID=your_category_id
+   ```
+
+4. **Generate Content**
+
+   ```bash
+   npm run generate:content
+   ```
+
+5. **Start Development**
    ```bash
    npm run dev
    ```
 
-3. Open [http://localhost:3000](http://localhost:3000) in your browser
+## 📈 Key Features Deep Dive
 
-## Design System
+### **Notion CMS Integration**
 
-The site uses a sophisticated color system with CSS custom properties supporting both light and dark themes. The color palette includes:
+- **Seamless Content Management** - Write posts in Notion, automatically sync to site
+- **Rich Content Support** - Images, code blocks, tables, and embedded content
+- **Image Optimization** - Automatic WebP conversion and responsive sizing
+- **Build-time Generation** - Content pre-rendered for optimal performance
 
-- **Primary**: Blue tones for accent elements
-- **Secondary**: Neutral grays for text and backgrounds
-- **Surface**: Clean backgrounds with subtle variations
-- **Semantic Colors**: Success, warning, error states
+### **Advanced Search System**
 
-## Next Steps (Phase 2)
+- **Keyboard-First UX** - CMD+K to open, arrow keys to navigate
+- **Comprehensive Results** - Search pages, posts, projects, and quick actions
+- **Analytics Integration** - Track search patterns and popular queries
+- **Instant Results** - Client-side search with API-powered content loading
 
-### Hero Section & Home Page
+### **Analytics & Insights**
 
-- [ ] Implement typing animation for hero text
-- [ ] Add call-to-action buttons
-- [ ] Create featured projects section
-- [ ] Add works/experience section
+- **Behavioral Analytics** - Track user journey, engagement, and conversion
+- **Content Performance** - Identify popular posts and projects
+- **Search Analytics** - Understand how users discover content
+- **Technical Metrics** - Page load times, scroll depth, and interaction patterns
 
-### Content Management
+### **Comment System**
 
-- [ ] Set up MDX for blog posts
-- [ ] Migrate existing blog content
-- [ ] Create project showcase cards
-- [ ] Implement dynamic routing for blog/project details
+- **GitHub Integration** - Leverages GitHub Discussions for comments
+- **Developer-Friendly** - Comments stored in your repository
+- **Theme Integration** - Automatically matches site theme
+- **Moderation Tools** - Full GitHub moderation capabilities
 
-### Enhanced Features
+## 🏗 Development
 
-- [ ] Add search functionality
-- [ ] Implement animations with Framer Motion
-- [ ] Add contact form
-- [ ] Set up SEO optimization
+### **Content Generation**
 
-## Notes
+```bash
+npm run generate:content  # Fetch and optimize all content from Notion
+npm run build            # Build optimized production bundle
+npm run start            # Start production server
+```
 
-The current implementation focuses on clean, minimal design with excellent accessibility and performance. The color system is more sophisticated than typical implementations, providing excellent contrast and theming capabilities.
+### **Code Quality**
 
-The mobile navigation uses a slide-out sheet that feels modern and native, while the desktop navigation maintains simplicity and clarity.
+```bash
+npm run lint            # ESLint code analysis
+npm run format          # Prettier code formatting
+npm run format:check    # Check formatting without changes
+```
+
+### **Adding New Content**
+
+1. Create posts in your Notion databases
+2. Run `npm run generate:content` to sync
+3. Content automatically appears on your site
+
+## 📊 Analytics Dashboard
+
+The site tracks comprehensive metrics including:
+
+- **Traffic Analytics** - Page views, unique visitors, traffic sources
+- **Content Performance** - Most popular posts and projects
+- **User Engagement** - Time on page, scroll depth, interaction patterns
+- **Conversion Tracking** - Contact attempts, social media clicks
+- **Search Insights** - Popular queries and search patterns
+
+## 🔧 Configuration
+
+### **Theme Customization**
+
+The design system uses CSS custom properties for comprehensive theming. Modify colors, typography, and spacing in `globals.css`.
+
+### **Search Configuration**
+
+Customize search categories and results in `src/components/search/command-palette.tsx`.
+
+### **Analytics Events**
+
+Add custom tracking events using the analytics helpers in `src/lib/analytics/`.
+
+## 🚢 Deployment
+
+### **Vercel (Recommended)**
+
+```bash
+# Connect your GitHub repository to Vercel
+# Environment variables are configured in Vercel dashboard
+# Automatic deployments on push to main branch
+```
+
+### **Other Platforms**
+
+The site works on any platform supporting Next.js:
+
+- Netlify
+- Railway
+- DigitalOcean App Platform
+- AWS Amplify
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
