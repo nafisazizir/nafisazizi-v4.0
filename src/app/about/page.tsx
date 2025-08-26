@@ -62,7 +62,7 @@ export default async function About() {
       bold: 'SEA',
     },
     {
-      filename: 'uq-grad.jpg',
+      filename: 'uq-grad.JPG',
       description: 'Graduation,',
       bold: 'UQ',
     },
@@ -72,7 +72,7 @@ export default async function About() {
       bold: 'Yosemite',
     },
     {
-      filename: 'grass.png',
+      filename: 'milford.png',
       description: 'Somewhere along',
       bold: 'Milford Hwy',
     },
