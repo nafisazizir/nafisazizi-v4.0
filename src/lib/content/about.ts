@@ -26,7 +26,7 @@ export class AboutContentService {
       // Cache the data
       this.cache = data;
       return data;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       if (error.code === 'ENOENT') {
         // In development, fall back to Notion API if content file doesn't exist

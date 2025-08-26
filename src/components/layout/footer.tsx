@@ -20,9 +20,9 @@ const links = [
     href: 'https://www.linkedin.com/in/nafisazizi/',
     trackingName: 'linkedin',
   },
-  { 
-    name: 'Email', 
-    icon: <Mail className="h-5 w-5" />, 
+  {
+    name: 'Email',
+    icon: <Mail className="h-5 w-5" />,
     href: 'mailto:hello@nafisazizi.com',
     trackingName: 'email',
   },

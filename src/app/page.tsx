@@ -5,6 +5,7 @@ import Link from 'next/link';
 
 import { TerminalAnimation } from '@/components/terminal-animation';
 import { Button } from '@/components/ui/button';
+
 import { trackChatWithMeClick, trackLinkedInClick, trackResumeClick } from '@/lib/analytics';
 
 export default function Home() {
@@ -57,30 +58,33 @@ Somewhere along the line, maybe we can have a chat or something.`,
 
           <p>
             Feel free to explore, search around, or reach out via{' '}
-            <a href="mailto:hello@nafisazizi.com" onClick={() => trackChatWithMeClick()}>email</a> if something catches your eye. For
-            professional inquiries, my work speaks through my{' '}
+            <a href="mailto:hello@nafisazizi.com" onClick={() => trackChatWithMeClick()}>
+              email
+            </a>{' '}
+            if something catches your eye. For professional inquiries, my work speaks through my{' '}
             <Link href="/projects">portofolio</Link> , though fair warning - my{' '}
-            <a 
-              href="https://resume.nafisazizi.com/" 
+            <a
+              href="https://resume.nafisazizi.com/"
               onClick={() => trackResumeClick()}
               target="_blank"
               rel="noopener noreferrer"
             >
               resume
-            </a> and{' '}
-            <a 
+            </a>{' '}
+            and{' '}
+            <a
               href="https://www.linkedin.com/in/nafisazizi/"
               onClick={() => trackLinkedInClick()}
               target="_blank"
               rel="noopener noreferrer"
             >
               LinkedIn
-            </a> are perpetually under
-            construction.
+            </a>{' '}
+            are perpetually under construction.
           </p>
         </div>
 
-        <div className="relative aspect-square w-48 overflow-hidden rounded-lg md:w-full md:max-w-[350px]">
+        <div className="relative aspect-square w-48 overflow-hidden rounded-lg grayscale transition-all duration-300 ease-in-out hover:grayscale-0 md:w-full md:max-w-[350px]">
           <Image
             src="/profile-informal.png"
             alt="Nafis Azizi Riza"
@@ -101,8 +105,8 @@ Somewhere along the line, maybe we can have a chat or something.`,
         </h2>
 
         <Link href={mailToLink}>
-          <Button 
-            size="lg" 
+          <Button
+            size="lg"
             className="mb-4 cursor-pointer text-sm sm:text-base"
             onClick={() => trackChatWithMeClick()}
           >

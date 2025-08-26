@@ -1,5 +1,6 @@
 // src/components/posts/post-card-skeleton.tsx
 import { Skeleton } from '@/components/ui/skeleton';
+
 import { cn } from '@/lib/utils';
 
 interface PostCardSkeletonProps {

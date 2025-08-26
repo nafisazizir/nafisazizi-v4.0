@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+
 import { usePathname } from 'next/navigation';
 
 import { trackScrollDepth, trackTimeOnPage } from '@/lib/analytics';
@@ -26,7 +27,7 @@ export function PageAnalytics({ pageTitle }: PageAnalyticsProps) {
 
       // Track at 25%, 50%, 75%, 90%, and 100% scroll depths
       const thresholds = [25, 50, 75, 90, 100];
-      thresholds.forEach(threshold => {
+      thresholds.forEach((threshold) => {
         if (scrollPercent >= threshold && !scrollThresholds.current.has(threshold)) {
           scrollThresholds.current.add(threshold);
           trackScrollDepth(threshold);
@@ -37,7 +38,8 @@ export function PageAnalytics({ pageTitle }: PageAnalyticsProps) {
     // Track time on page when user leaves
     const handleBeforeUnload = () => {
       const timeSpent = (Date.now() - startTime.current) / 1000; // Convert to seconds
-      if (timeSpent > 5) { // Only track if user spent more than 5 seconds
+      if (timeSpent > 5) {
+        // Only track if user spent more than 5 seconds
         trackTimeOnPage(pageTitle, timeSpent);
       }
     };
@@ -48,7 +50,7 @@ export function PageAnalytics({ pageTitle }: PageAnalyticsProps) {
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('beforeunload', handleBeforeUnload);
-      
+
       // Track time when component unmounts (page change)
       const timeSpent = (Date.now() - startTime.current) / 1000;
       if (timeSpent > 5) {

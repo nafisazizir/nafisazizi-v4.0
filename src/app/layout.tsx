@@ -6,6 +6,7 @@ import GoogleAnalytics from '@/components/analytics/google-analytics';
 import { PageAnalytics } from '@/components/analytics/page-analytics';
 import { Footer } from '@/components/layout/footer';
 import { Header } from '@/components/layout/header';
+import { CommandPalette } from '@/components/search';
 import { ThemeProvider } from '@/components/theme-provider';
 
 import './globals.css';
@@ -47,6 +48,7 @@ export default function RootLayout({
       <body className={`flex min-h-screen flex-col`}>
         <GoogleAnalytics />
         <PageAnalytics pageTitle="Nafis Azizi Riza" />
+        <CommandPalette />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

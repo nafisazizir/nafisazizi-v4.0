@@ -5,9 +5,10 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { MobileNavigation } from '@/components/layout/mobile-navigation';
+import { SearchTrigger } from '@/components/search';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { trackEvent } from '@/lib/analytics';
 
+import { trackEvent } from '@/lib/analytics';
 import { cn } from '@/lib/utils';
 
 import Logo from '../../../public/logo.svg';
@@ -26,22 +27,22 @@ export function Header() {
   return (
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
       <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-16 flex-row items-center justify-between md:grid md:grid-cols-[1fr_3fr_1fr]">
           {/* Logo/Brand */}
           <Link href="/" onClick={() => trackEvent('click', 'navigation', 'logo')}>
             <Image src={Logo} alt="Logo" width={32} height={32} />
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden items-center space-x-8 md:flex">
+          <nav className="m-auto hidden items-center space-x-8 md:flex">
             {navigation.map((item) => (
-              <Link 
-                key={item.name} 
+              <Link
+                key={item.name}
                 href={item.href}
                 onClick={() => trackEvent('click', 'navigation', item.name.toLowerCase())}
               >
                 <Button
-                  variant={'ghost'}
+                  variant="ghost"
                   className={cn(
                     'cursor-pointer',
                     pathname == item.href
@@ -55,8 +56,9 @@ export function Header() {
             ))}
           </nav>
 
-          {/* Controls */}
-          <div className="flex items-center space-x-2">
+          {/* Controls (right aligned) */}
+          <div className="flex items-center justify-end space-x-2">
+            <SearchTrigger />
             <ThemeToggle />
             <MobileNavigation navigation={navigation} />
           </div>

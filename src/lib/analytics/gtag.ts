@@ -7,7 +7,7 @@ declare global {
       command: 'config' | 'event' | 'js' | 'set',
       targetId: string | Date,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      config?: Record<string, any>
+      config?: Record<string, any>,
     ) => void;
   }
 }
@@ -33,12 +33,7 @@ export const trackPageView = (url: string) => {
 };
 
 // Track custom events
-export const trackEvent = (
-  action: string,
-  category: string,
-  label?: string,
-  value?: number
-) => {
+export const trackEvent = (action: string, category: string, label?: string, value?: number) => {
   if (!GA_MEASUREMENT_ID) return;
 
   window.gtag('event', action, {
@@ -91,7 +86,7 @@ export const trackThemeToggle = (newTheme: string) => {
 };
 
 export const trackSearch = (searchTerm: string) => {
-  trackEvent('search', 'site', searchTerm);
+  trackEvent('search', 'command_palette', searchTerm);
 };
 
 export const trackExternalLink = (url: string, linkText?: string) => {

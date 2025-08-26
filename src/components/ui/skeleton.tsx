@@ -7,7 +7,7 @@ interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
 function Skeleton({ className, delay = 0, ...props }: SkeletonProps) {
   return (
     <div
-      className={cn('animate-pulse rounded-md bg-muted', className)}
+      className={cn('bg-muted animate-pulse rounded-md', className)}
       style={{
         animationDelay: `${delay}ms`,
       }}
