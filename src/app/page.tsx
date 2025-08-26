@@ -1,8 +1,11 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { TerminalAnimation } from '@/components/terminal-animation';
 import { Button } from '@/components/ui/button';
+import { trackChatWithMeClick, trackLinkedInClick, trackResumeClick } from '@/lib/analytics';
 
 export default function Home() {
   const emailTemplate = {
@@ -54,11 +57,25 @@ Somewhere along the line, maybe we can have a chat or something.`,
 
           <p>
             Feel free to explore, search around, or reach out via{' '}
-            <a href="mailto:hello@nafisazizi.com">email</a> if something catches your eye. For
+            <a href="mailto:hello@nafisazizi.com" onClick={() => trackChatWithMeClick()}>email</a> if something catches your eye. For
             professional inquiries, my work speaks through my{' '}
             <Link href="/projects">portofolio</Link> , though fair warning - my{' '}
-            <a href="https://resume.nafisazizi.com/">resume</a> and{' '}
-            <a href="https://www.linkedin.com/in/nafisazizi/">LinkedIn</a> are perpetually under
+            <a 
+              href="https://resume.nafisazizi.com/" 
+              onClick={() => trackResumeClick()}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              resume
+            </a> and{' '}
+            <a 
+              href="https://www.linkedin.com/in/nafisazizi/"
+              onClick={() => trackLinkedInClick()}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LinkedIn
+            </a> are perpetually under
             construction.
           </p>
         </div>
@@ -84,7 +101,11 @@ Somewhere along the line, maybe we can have a chat or something.`,
         </h2>
 
         <Link href={mailToLink}>
-          <Button size="lg" className="mb-4 cursor-pointer text-sm sm:text-base">
+          <Button 
+            size="lg" 
+            className="mb-4 cursor-pointer text-sm sm:text-base"
+            onClick={() => trackChatWithMeClick()}
+          >
             Chat with me
           </Button>
         </Link>

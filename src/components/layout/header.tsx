@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 
 import { MobileNavigation } from '@/components/layout/mobile-navigation';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { trackEvent } from '@/lib/analytics';
 
 import { cn } from '@/lib/utils';
 
@@ -27,14 +28,18 @@ export function Header() {
       <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo/Brand */}
-          <Link href="/">
+          <Link href="/" onClick={() => trackEvent('click', 'navigation', 'logo')}>
             <Image src={Logo} alt="Logo" width={32} height={32} />
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden items-center space-x-8 md:flex">
             {navigation.map((item) => (
-              <Link key={item.name} href={item.href}>
+              <Link 
+                key={item.name} 
+                href={item.href}
+                onClick={() => trackEvent('click', 'navigation', item.name.toLowerCase())}
+              >
                 <Button
                   variant={'ghost'}
                   className={cn(

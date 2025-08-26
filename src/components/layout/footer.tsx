@@ -1,5 +1,9 @@
+'use client';
+
 import { Github, Linkedin, Mail } from 'lucide-react';
 import Link from 'next/link';
+
+import { trackEmailClick, trackSocialClick } from '@/lib/analytics';
 
 import { Button } from '../ui/button';
 
@@ -8,13 +12,20 @@ const links = [
     name: 'Github',
     icon: <Github className="h-5 w-5" />,
     href: 'https://github.com/nafisazizir',
+    trackingName: 'github',
   },
   {
     name: 'LinkedIn',
     icon: <Linkedin className="h-5 w-5" />,
     href: 'https://www.linkedin.com/in/nafisazizi/',
+    trackingName: 'linkedin',
   },
-  { name: 'Email', icon: <Mail className="h-5 w-5" />, href: 'mailto:hello@nafisazizi.com' },
+  { 
+    name: 'Email', 
+    icon: <Mail className="h-5 w-5" />, 
+    href: 'mailto:hello@nafisazizi.com',
+    trackingName: 'email',
+  },
 ];
 
 export function Footer() {
@@ -36,6 +47,13 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={item.name}
+                onClick={() => {
+                  if (item.trackingName === 'email') {
+                    trackEmailClick();
+                  } else {
+                    trackSocialClick(item.trackingName);
+                  }
+                }}
               >
                 <Button
                   variant="ghost"

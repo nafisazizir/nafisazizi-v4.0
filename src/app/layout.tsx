@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Playfair_Display } from 'next/font/google';
 
+import GoogleAnalytics from '@/components/analytics/google-analytics';
+import { PageAnalytics } from '@/components/analytics/page-analytics';
 import { Footer } from '@/components/layout/footer';
 import { Header } from '@/components/layout/header';
 import { ThemeProvider } from '@/components/theme-provider';
@@ -43,6 +45,8 @@ export default function RootLayout({
       className={`${inter.variable} ${playfair.variable} antialiased`}
     >
       <body className={`flex min-h-screen flex-col`}>
+        <GoogleAnalytics />
+        <PageAnalytics pageTitle="Nafis Azizi Riza" />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
