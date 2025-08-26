@@ -24,7 +24,7 @@ export function SearchTrigger() {
     >
       <span className="inline font-normal">Search...</span>
       <kbd className="bg-background group-hover:text-foreground pointer-events-none flex items-center gap-1 rounded border px-1.5 font-mono text-xs font-medium opacity-100 transition-all duration-300 ease-in-out select-none">
-        <span className="text-sm">{isMac ? '⌘' : 'Ctrl'}</span>K
+        {isMac ? <span className="text-sm">{'⌘'}</span> : <span>{'Ctrl'}</span>}K
       </kbd>
     </Button>
   );
