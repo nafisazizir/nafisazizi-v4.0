@@ -27,6 +27,7 @@ export const n2m = new NotionToMarkdown({
 
 // Custom transformer for images to preserve alt text/captions
 n2m.setCustomTransformer('image', async (block) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { image } = block as any;
   let imageUrl = '';
 
@@ -37,9 +38,8 @@ n2m.setCustomTransformer('image', async (block) => {
   }
 
   // Get the caption from the image block
-  const caption = image.caption
-    ? image.caption.map((text: any) => text.plain_text).join('')
-    : '';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const caption = image.caption ? image.caption.map((text: any) => text.plain_text).join('') : '';
 
   // Return markdown image with alt text as caption
   return `![${caption}](${imageUrl})`;

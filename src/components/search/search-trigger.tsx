@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+
 import { trackSearchOpen } from '@/lib/analytics';
 
 import { Button } from '../ui/button';

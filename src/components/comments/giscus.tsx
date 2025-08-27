@@ -68,6 +68,7 @@ export function Giscus({
     });
 
     ref.current.appendChild(scriptElem);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Handle theme changes

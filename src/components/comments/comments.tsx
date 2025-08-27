@@ -2,8 +2,6 @@
 
 import { useEffect } from 'react';
 
-import { MessageCircle } from 'lucide-react';
-
 import { trackCommentView } from '@/lib/analytics';
 
 import { Giscus } from './giscus';

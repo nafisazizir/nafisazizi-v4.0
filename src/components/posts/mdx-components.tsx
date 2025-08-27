@@ -15,9 +15,11 @@ function OptimizedImage({ src, alt = '', width, height }: OptimizedImageProps) {
   const isLocalImage = src.startsWith('/blog-images/') || src.startsWith('/project-images/');
 
   // Only show caption if alt text exists and is not just a filename or generic text
-  const hasCaption = alt && alt.trim().length > 0 && 
-    !alt.toLowerCase().includes('.jpg') && 
-    !alt.toLowerCase().includes('.png') && 
+  const hasCaption =
+    alt &&
+    alt.trim().length > 0 &&
+    !alt.toLowerCase().includes('.jpg') &&
+    !alt.toLowerCase().includes('.png') &&
     !alt.toLowerCase().includes('.webp') &&
     alt !== 'image' &&
     alt !== 'Image';
@@ -30,11 +32,11 @@ function OptimizedImage({ src, alt = '', width, height }: OptimizedImageProps) {
           alt={alt}
           width={width || 800}
           height={height || 450}
-          className="rounded-lg my-8"
+          className="my-8 rounded-lg"
           sizes="(max-width: 768px) 100vw, 800px"
         />
         {hasCaption && (
-          <span className="text-muted-foreground block text-center text-sm italic leading-relaxed -mt-6 mb-8">
+          <span className="text-muted-foreground -mt-6 mb-8 block text-center text-sm leading-relaxed italic">
             {alt}
           </span>
         )}
@@ -45,16 +47,16 @@ function OptimizedImage({ src, alt = '', width, height }: OptimizedImageProps) {
   // Fallback for external images
   return (
     <>
-      <Image 
-        src={src} 
-        alt={alt} 
-        className="h-auto max-w-full rounded-lg my-8" 
-        loading="lazy" 
+      <Image
+        src={src}
+        alt={alt}
+        className="my-8 h-auto max-w-full rounded-lg"
+        loading="lazy"
         width={width || 800}
         height={height || 450}
       />
       {hasCaption && (
-        <span className="text-muted-foreground block text-center text-sm italic leading-relaxed -mt-6 mb-8">
+        <span className="text-muted-foreground -mt-6 mb-8 block text-center text-sm leading-relaxed italic">
           {alt}
         </span>
       )}
