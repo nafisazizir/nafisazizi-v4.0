@@ -269,23 +269,14 @@ body {
 
   /* Images */
   .prose :where(img) {
-    @apply mx-auto my-8 rounded-xl; /* shadow-md; */
+    @apply mx-auto rounded-xl;
     max-height: 60vh;
     object-fit: contain;
   }
 
-  /* Image figures and captions */
-  .prose :where(figure) {
-    @apply my-8;
-  }
-
-  .prose :where(figcaption) {
-    @apply text-muted-foreground mt-3 text-center text-sm italic;
-  }
-
-  /* Legacy image caption support (img + em) */
-  .prose img + em {
-    @apply text-muted-foreground -mt-6 mb-8 block text-center text-sm;
+  /* Image captions - using span approach to avoid figure/p nesting issues */
+  .prose :where(span.text-muted-foreground) {
+    @apply text-muted-foreground text-center text-sm italic;
   }
 
   /* Travel-specific image captions */

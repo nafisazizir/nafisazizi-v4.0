@@ -15,52 +15,50 @@ function OptimizedImage({ src, alt = '', width, height }: OptimizedImageProps) {
   const isLocalImage = src.startsWith('/blog-images/') || src.startsWith('/project-images/');
 
   // Only show caption if alt text exists and is not just a filename or generic text
-  const hasCaption =
-    alt &&
-    alt.trim().length > 0 &&
-    !alt.toLowerCase().includes('.jpg') &&
-    !alt.toLowerCase().includes('.png') &&
+  const hasCaption = alt && alt.trim().length > 0 && 
+    !alt.toLowerCase().includes('.jpg') && 
+    !alt.toLowerCase().includes('.png') && 
     !alt.toLowerCase().includes('.webp') &&
     alt !== 'image' &&
     alt !== 'Image';
 
   if (isLocalImage) {
     return (
-      <figure className="my-8 space-y-0">
+      <>
         <Image
           src={src}
           alt={alt}
           width={width || 800}
           height={height || 450}
-          className="rounded-lg"
+          className="rounded-lg my-8"
           sizes="(max-width: 768px) 100vw, 800px"
         />
         {hasCaption && (
-          <figcaption className="text-muted-foreground text-center text-sm leading-relaxed italic">
+          <span className="text-muted-foreground block text-center text-sm italic leading-relaxed -mt-6 mb-8">
             {alt}
-          </figcaption>
+          </span>
         )}
-      </figure>
+      </>
     );
   }
 
   // Fallback for external images
   return (
-    <figure className="my-8">
-      <Image
-        src={src}
-        alt={alt}
-        className="h-auto max-w-full rounded-lg"
-        loading="lazy"
+    <>
+      <Image 
+        src={src} 
+        alt={alt} 
+        className="h-auto max-w-full rounded-lg my-8" 
+        loading="lazy" 
         width={width || 800}
         height={height || 450}
       />
       {hasCaption && (
-        <figcaption className="text-muted-foreground text-center text-sm leading-relaxed italic">
+        <span className="text-muted-foreground block text-center text-sm italic leading-relaxed -mt-6 mb-8">
           {alt}
-        </figcaption>
+        </span>
       )}
-    </figure>
+    </>
   );
 }
 
