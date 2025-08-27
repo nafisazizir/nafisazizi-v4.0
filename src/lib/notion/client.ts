@@ -20,9 +20,29 @@ export const notion = new Client({
   auth: process.env.NOTION_TOKEN,
 });
 
-// Initialize Notion to Markdown converter
+// Initialize Notion to Markdown converter with custom transformers
 export const n2m = new NotionToMarkdown({
   notionClient: notion,
+});
+
+// Custom transformer for images to preserve alt text/captions
+n2m.setCustomTransformer('image', async (block) => {
+  const { image } = block as any;
+  let imageUrl = '';
+
+  if (image.type === 'external') {
+    imageUrl = image.external?.url || '';
+  } else if (image.type === 'file') {
+    imageUrl = image.file?.url || '';
+  }
+
+  // Get the caption from the image block
+  const caption = image.caption
+    ? image.caption.map((text: any) => text.plain_text).join('')
+    : '';
+
+  // Return markdown image with alt text as caption
+  return `![${caption}](${imageUrl})`;
 });
 
 // Database IDs

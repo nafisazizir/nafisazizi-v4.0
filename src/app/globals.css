@@ -274,7 +274,16 @@ body {
     object-fit: contain;
   }
 
-  /* Image captions */
+  /* Image figures and captions */
+  .prose :where(figure) {
+    @apply my-8;
+  }
+
+  .prose :where(figcaption) {
+    @apply text-muted-foreground mt-3 text-center text-sm italic;
+  }
+
+  /* Legacy image caption support (img + em) */
   .prose img + em {
     @apply text-muted-foreground -mt-6 mb-8 block text-center text-sm;
   }
