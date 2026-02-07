@@ -5,14 +5,18 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { MobileNavigation } from '@/components/layout/mobile-navigation';
-import { SearchTrigger } from '@/components/search';
 import { ThemeToggle } from '@/components/theme-toggle';
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from '@/components/ui/navigation-menu';
 
 import { trackEvent } from '@/lib/analytics';
-import { cn } from '@/lib/utils';
 
 import Logo from '../../../public/logo.svg';
-import { Button } from '../ui/button';
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -34,32 +38,27 @@ export function Header() {
               <Image src={Logo} alt="Logo" width={32} height={32} />
             </Link>
 
-            <nav className="hidden items-center gap-1 md:flex">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onClick={() => trackEvent('click', 'navigation', item.name.toLowerCase())}
-                >
-                  <Button
-                    variant="ghost"
-                    className={cn(
-                      'cursor-pointer',
-                      pathname == item.href
-                        ? 'bg-accent'
-                        : 'text-muted-foreground hover:text-muted-foreground',
-                    )}
-                  >
-                    {item.name}
-                  </Button>
-                </Link>
-              ))}
-            </nav>
+            <NavigationMenu className="hidden md:flex">
+              <NavigationMenuList>
+                {navigation.map((item) => (
+                  <NavigationMenuItem key={item.name}>
+                    <NavigationMenuLink asChild active={pathname === item.href}>
+                      <Link
+                        href={item.href}
+                        onClick={() => trackEvent('click', 'navigation', item.name.toLowerCase())}
+                        className={navigationMenuTriggerStyle()}
+                      >
+                        {item.name}
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                ))}
+              </NavigationMenuList>
+            </NavigationMenu>
           </div>
 
           {/* Controls (right group) */}
           <div className="flex items-center space-x-2">
-            <SearchTrigger />
             <ThemeToggle />
             <MobileNavigation navigation={navigation} />
           </div>

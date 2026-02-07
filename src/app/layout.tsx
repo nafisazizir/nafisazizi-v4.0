@@ -7,7 +7,6 @@ import { PageAnalytics } from '@/components/analytics/page-analytics';
 import { PostHogProvider } from '@/components/analytics/posthog-provider';
 import { Footer } from '@/components/layout/footer';
 import { Header } from '@/components/layout/header';
-import { CommandPalette, SearchProvider } from '@/components/search';
 import { ThemeProvider } from '@/components/theme-provider';
 
 import './globals.css';
@@ -36,9 +35,7 @@ export default function RootLayout({
         <GoogleAnalytics />
         <PageAnalytics pageTitle="Nafis Azizi Riza" />
         <PostHogProvider>
-          <SearchProvider>
-            <CommandPalette />
-            <ThemeProvider
+          <ThemeProvider
               attribute="class"
               defaultTheme="system"
               enableSystem
@@ -50,7 +47,6 @@ export default function RootLayout({
               </main>
               <Footer />
             </ThemeProvider>
-          </SearchProvider>
         </PostHogProvider>
       </body>
     </html>

@@ -100,16 +100,6 @@ export const trackThemeToggle = (newTheme: string) => {
   posthogTracking.trackThemeToggle(newTheme);
 };
 
-export const trackSearch = (searchTerm: string) => {
-  trackEvent('search', 'command_palette', searchTerm);
-  posthogTracking.trackSearch(searchTerm);
-};
-
-export const trackSearchOpen = () => {
-  trackEvent('open', 'command_palette', 'search_trigger_click');
-  posthogTracking.trackSearchOpen();
-};
-
 export const trackExternalLink = (url: string, linkText?: string) => {
   trackEvent('click', 'external_link', linkText || url);
   posthogTracking.trackExternalLink(url, linkText);

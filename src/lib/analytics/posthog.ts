@@ -95,19 +95,6 @@ export const trackThemeToggle = (newTheme: string) => {
   });
 };
 
-export const trackSearch = (searchTerm: string) => {
-  trackEvent('search', {
-    category: 'command_palette',
-    search_term: searchTerm,
-  });
-};
-
-export const trackSearchOpen = () => {
-  trackEvent('search_open', {
-    category: 'command_palette',
-  });
-};
-
 export const trackExternalLink = (url: string, linkText?: string) => {
   trackEvent('external_link_click', {
     category: 'external_link',
