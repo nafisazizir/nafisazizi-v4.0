@@ -14,10 +14,10 @@ export function HeroSection() {
   return (
     <section className="py-24 md:py-32 min-h-svh sm:min-h-fit flex items-center justify-center">
       <div className="flex flex-col">
-        <h1 className="text-5xl tracking-tighter md:text-6xl lg:text-7xl">
+        <h1 className="text-4xl sm:text-5xl tracking-tighter md:text-6xl lg:text-7xl">
           Welcome to my finely tuned digital sanctuary.
         </h1>
-        <p className="text-muted-foreground mt-6 text-lg leading-relaxed md:text-xl max-w-xl">
+        <p className="text-muted-foreground mt-6 text-lg leading-relaxed md:text-xl lg:text-2xl max-w-2xl">
           Shipping products and chasing stories out in the world.
         </p>
 

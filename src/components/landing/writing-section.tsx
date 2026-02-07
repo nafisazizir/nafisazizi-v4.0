@@ -19,11 +19,11 @@ const debriefs = [
 export function WritingSection() {
   return (
     <section id="writing" className="mx-auto py-16 md:py-24">
-      <div className="flex items-end justify-between gap-6">
+      <div className="flex items-end justify-between gap-3 sm:gap-6">
         <div>
-          <span className="text-muted-foreground font-mono text-xs">{'// writing'}</span>
-          <h2 className="mt-2 text-2xl tracking-tight md:text-3xl">Debrief series</h2>
-          <p className="text-muted-foreground mt-2 text-sm">
+          <span className="text-muted-foreground font-mono text-xs sm:text-sm">{'// writing'}</span>
+          <h2 className="mt-2 text-2xl tracking-tight md:text-3xl lg:text-4xl">Debrief series</h2>
+          <p className="text-muted-foreground mt-2 text-sm sm:text-base lg:text-lg">
             Story-first reflections from travel and life.
           </p>
         </div>
@@ -41,7 +41,7 @@ export function WritingSection() {
           >
             <div className="flex items-center gap-4">
               <span className="text-muted-foreground w-6 font-mono text-xs">{entry.number}</span>
-              <span className="group-hover:text-foreground text-sm font-medium transition-colors">
+              <span className="group-hover:text-foreground text-sm sm:text-base font-medium transition-colors">
                 {entry.title}
               </span>
             </div>

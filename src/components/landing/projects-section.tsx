@@ -26,10 +26,10 @@ const featured = [
 export function ProjectsSection() {
   return (
     <section id="projects" className="mx-auto py-16 md:py-24">
-      <div className="flex items-end justify-between gap-6">
+      <div className="flex items-end justify-between gap-3 sm:gap-6">
         <div>
-          <span className="text-muted-foreground font-mono text-xs">{'// projects'}</span>
-          <h2 className="mt-2 text-2xl tracking-tight md:text-3xl">Worth clicking</h2>
+          <span className="text-muted-foreground font-mono text-xs sm:text-sm">{'// projects'}</span>
+          <h2 className="mt-2 text-2xl tracking-tight md:text-3xl lg:text-4xl">Worth clicking</h2>
         </div>
         <Button variant="ghost" size="sm" className="font-mono text-xs" asChild>
           <Link href="/projects">{'>'} view all</Link>
@@ -48,7 +48,7 @@ export function ProjectsSection() {
                 className="border-border aspect-video w-full border-b object-cover"
               />
               <CardHeader>
-                <CardTitle className="text-lg">{project.title}</CardTitle>
+                <CardTitle className="text-lg lg:text-xl">{project.title}</CardTitle>
                 <CardDescription>{project.description}</CardDescription>
               </CardHeader>
             </Card>

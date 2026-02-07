@@ -7,9 +7,9 @@ export function AboutSection() {
     <section id="about" className="mx-auto py-16 md:py-24">
       <div className="grid gap-6 md:grid-cols-6 md:grid-rows-2">
         <div className="transition-all md:col-span-4 md:row-span-2">
-          <span className="text-muted-foreground font-mono text-xs">{'// background'}</span>
-          <h2 className="mt-4 text-xl tracking-tight md:text-2xl">A bit about me</h2>
-          <p className="text-muted-foreground mt-4 text-sm leading-relaxed md:text-base">
+          <span className="text-muted-foreground font-mono text-xs sm:text-sm">{'// background'}</span>
+          <h2 className="mt-4 text-xl tracking-tight md:text-2xl lg:text-3xl">A bit about me</h2>
+          <p className="text-muted-foreground mt-4 text-base leading-relaxed lg:text-lg">
             CS grad with a double degree from{' '}
             <Link
               href="https://cs.ui.ac.id/sarjana-ilmu-komputer-kelas-internasional/"
@@ -48,7 +48,7 @@ export function AboutSection() {
             </Link>{' '}
             opened my perspective on the world.
           </p>
-          <p className="text-muted-foreground mt-4 text-sm leading-relaxed md:text-base">
+          <p className="text-muted-foreground mt-4 text-base leading-relaxed lg:text-lg">
             I build things that people genuinely find useful: productivity tools students rely on,
             AI-powered browser extensions that change how people learn, and apps that thousands of
             creators use.
@@ -56,7 +56,7 @@ export function AboutSection() {
         </div>
 
         <div className="flex w-fit flex-col md:col-span-2">
-          <span className="text-muted-foreground mb-4 font-mono text-xs">{'// ping'}</span>
+          <span className="text-muted-foreground mb-4 font-mono text-xs sm:text-sm">{'// ping'}</span>
           <div className="flex flex-col gap-2">
             <TooltipProvider>
               <Tooltip>
