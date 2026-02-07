@@ -26,14 +26,14 @@ Somewhere along the line, maybe we can have a chat or something.`,
 
   return (
     <div className="pb-12">
-      <div className="flex h-[calc(100vh-64px)] flex-col items-center justify-center gap-8">
-        <div className="flex flex-col items-center justify-center">
-          <h1 className="text-foreground font-playfair mb-5 text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl">
-            Hey <span className="font-semibold italic">there!</span>
+      <div className="flex flex-col gap-8 py-16 md:py-24">
+        <div className="flex flex-col">
+          <h1 className="text-foreground mb-4 text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl">
+            Hey there!
           </h1>
-          <p className="text-muted-foreground sm:text-md mx-auto mb-5 max-w-2xl text-center text-base leading-tight lg:text-xl">
+          <p className="text-muted-foreground sm:text-md max-w-2xl text-base leading-relaxed lg:text-xl">
             Welcome to my finely tuned{' '}
-            <span className="text-primary font-medium">digital sanctuary.</span>
+            <span className="text-foreground font-medium">digital sanctuary.</span>
           </p>
         </div>
 
@@ -100,8 +100,8 @@ Somewhere along the line, maybe we can have a chat or something.`,
         <p className="text-muted-foreground mb-3 text-sm sm:text-base lg:text-lg">
           Have something in mind?
         </p>
-        <h2 className="font-playfair text-foreground mb-8 text-3xl font-medium tracking-tight sm:text-4xl md:mb-10 lg:text-5xl xl:text-6xl">
-          Let&apos;s have a <span className="font-semibold italic">chat</span>
+        <h2 className="text-foreground mb-8 text-3xl font-medium tracking-tight sm:text-4xl md:mb-10 lg:text-5xl xl:text-6xl">
+          Let&apos;s have a chat
         </h2>
 
         <Link href={mailToLink}>

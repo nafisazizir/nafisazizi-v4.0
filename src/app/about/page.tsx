@@ -81,8 +81,8 @@ export default async function About() {
   return (
     <div className="m-auto max-w-3xl py-12">
       <div className="mx-auto max-w-4xl">
-        <h1 className="text-foreground font-playfair text-3xl tracking-tight sm:text-4xl">
-          About <span className="font-bold italic">Me</span>
+        <h1 className="text-foreground text-3xl font-bold tracking-tight sm:text-4xl">
+          About Me
         </h1>
         <div className="mt-8 text-lg">
           <ScrollArea className="w-full pb-3">
