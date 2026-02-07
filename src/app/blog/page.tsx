@@ -6,13 +6,11 @@ export default async function Blog() {
   const posts = await getAllBlogPosts();
 
   return (
-    <div className="py-12">
+    <div className="py-16 md:py-24">
       <div className="mx-auto max-w-6xl">
         <header className="mb-12">
-          <h1 className="text-foreground text-3xl font-bold tracking-tight sm:text-4xl">
-            Blog
-          </h1>
-          <p className="text-muted-foreground mt-4 text-lg">
+          <h1 className="mt-2 text-2xl tracking-tight md:text-3xl lg:text-4xl">Blog</h1>
+          <p className="text-muted-foreground mt-2 text-sm sm:text-base lg:text-lg">
             Thoughts, ideas, and learnings from my journey as a software engineer.
           </p>
         </header>

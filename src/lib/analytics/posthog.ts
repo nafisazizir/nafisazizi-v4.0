@@ -119,22 +119,6 @@ export const trackScrollDepth = (depth: number) => {
   });
 };
 
-// Comment interaction tracking
-export const trackCommentView = (postTitle: string) => {
-  trackEvent('comment_view', {
-    category: 'comments',
-    post_title: postTitle,
-  });
-};
-
-export const trackCommentInteraction = (action: string, postTitle: string) => {
-  trackEvent('comment_interaction', {
-    category: 'comments',
-    action,
-    post_title: postTitle,
-  });
-};
-
 // Identify user (for product analytics - use when user logs in or provides info)
 export const identifyUser = (userId: string, properties?: Record<string, string | number>) => {
   if (!isPostHogAvailable()) return;

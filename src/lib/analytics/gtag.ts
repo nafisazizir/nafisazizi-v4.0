@@ -115,14 +115,3 @@ export const trackScrollDepth = (depth: number) => {
   trackEvent('scroll', 'depth', `${depth}%`, depth);
   posthogTracking.trackScrollDepth(depth);
 };
-
-// Comment interaction tracking
-export const trackCommentView = (postTitle: string) => {
-  trackEvent('view', 'comments', postTitle);
-  posthogTracking.trackCommentView(postTitle);
-};
-
-export const trackCommentInteraction = (action: string, postTitle: string) => {
-  trackEvent(action, 'comments', postTitle);
-  posthogTracking.trackCommentInteraction(action, postTitle);
-};
