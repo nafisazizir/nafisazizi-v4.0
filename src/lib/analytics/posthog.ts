@@ -20,7 +20,7 @@ export const trackPageView = (url: string) => {
 // Track custom events
 export const trackEvent = (
   eventName: string,
-  properties?: Record<string, string | number | boolean>
+  properties?: Record<string, string | number | boolean>,
 ) => {
   if (!isPostHogAvailable()) return;
 
@@ -95,19 +95,6 @@ export const trackThemeToggle = (newTheme: string) => {
   });
 };
 
-export const trackSearch = (searchTerm: string) => {
-  trackEvent('search', {
-    category: 'command_palette',
-    search_term: searchTerm,
-  });
-};
-
-export const trackSearchOpen = () => {
-  trackEvent('search_open', {
-    category: 'command_palette',
-  });
-};
-
 export const trackExternalLink = (url: string, linkText?: string) => {
   trackEvent('external_link_click', {
     category: 'external_link',
@@ -129,22 +116,6 @@ export const trackScrollDepth = (depth: number) => {
   trackEvent('scroll_depth', {
     category: 'scroll',
     depth_percentage: depth,
-  });
-};
-
-// Comment interaction tracking
-export const trackCommentView = (postTitle: string) => {
-  trackEvent('comment_view', {
-    category: 'comments',
-    post_title: postTitle,
-  });
-};
-
-export const trackCommentInteraction = (action: string, postTitle: string) => {
-  trackEvent('comment_interaction', {
-    category: 'comments',
-    action,
-    post_title: postTitle,
   });
 };
 

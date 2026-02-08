@@ -6,7 +6,6 @@ import rehypePrism from 'rehype-prism-plus';
 import remarkBreaks from 'remark-breaks';
 import remarkGfm from 'remark-gfm';
 
-import { Comments } from '@/components/comments';
 import { Badge } from '@/components/ui/badge';
 
 import { mdxComponents } from './mdx-components';
@@ -99,9 +98,6 @@ export function PostContent({ post }: PostContentProps) {
           }}
         />
       </div>
-
-      {/* Comments Section */}
-      <Comments title={post.title} />
     </article>
   );
 }

@@ -8,9 +8,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from '@/components/ui/navigation-menu';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-
-import { cn } from '@/lib/utils';
 
 interface MobileNavProps {
   navigation: readonly {
@@ -36,23 +41,23 @@ export function MobileNavigation({ navigation }: MobileNavProps) {
             <SheetTitle className="text-left">Navigation</SheetTitle>
           </VisuallyHidden.Root>
         </SheetHeader>
-        <nav className="mt-8 flex flex-col gap-4">
-          {navigation.map((item) => (
-            <Link key={item.name} href={item.href} onClick={() => setIsOpen(false)}>
-              <Button
-                variant={'ghost'}
-                className={cn(
-                  'w-full cursor-pointer justify-start',
-                  pathname == item.href
-                    ? 'bg-accent'
-                    : 'text-muted-foreground hover:text-muted-foreground',
-                )}
-              >
-                {item.name}
-              </Button>
-            </Link>
-          ))}
-        </nav>
+        <NavigationMenu orientation="vertical" className="mt-8 max-w-none [&>div]:w-full">
+          <NavigationMenuList className="flex-col items-stretch gap-2">
+            {navigation.map((item) => (
+              <NavigationMenuItem key={item.name}>
+                <NavigationMenuLink asChild active={pathname === item.href}>
+                  <Link
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className={navigationMenuTriggerStyle() + ' w-full justify-start'}
+                  >
+                    {item.name}
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            ))}
+          </NavigationMenuList>
+        </NavigationMenu>
       </SheetContent>
     </Sheet>
   );

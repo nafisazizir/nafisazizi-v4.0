@@ -100,16 +100,6 @@ export const trackThemeToggle = (newTheme: string) => {
   posthogTracking.trackThemeToggle(newTheme);
 };
 
-export const trackSearch = (searchTerm: string) => {
-  trackEvent('search', 'command_palette', searchTerm);
-  posthogTracking.trackSearch(searchTerm);
-};
-
-export const trackSearchOpen = () => {
-  trackEvent('open', 'command_palette', 'search_trigger_click');
-  posthogTracking.trackSearchOpen();
-};
-
 export const trackExternalLink = (url: string, linkText?: string) => {
   trackEvent('click', 'external_link', linkText || url);
   posthogTracking.trackExternalLink(url, linkText);
@@ -124,15 +114,4 @@ export const trackTimeOnPage = (pageTitle: string, timeSpent: number) => {
 export const trackScrollDepth = (depth: number) => {
   trackEvent('scroll', 'depth', `${depth}%`, depth);
   posthogTracking.trackScrollDepth(depth);
-};
-
-// Comment interaction tracking
-export const trackCommentView = (postTitle: string) => {
-  trackEvent('view', 'comments', postTitle);
-  posthogTracking.trackCommentView(postTitle);
-};
-
-export const trackCommentInteraction = (action: string, postTitle: string) => {
-  trackEvent(action, 'comments', postTitle);
-  posthogTracking.trackCommentInteraction(action, postTitle);
 };

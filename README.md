@@ -31,12 +31,6 @@ A modern, performant personal portfolio and blog built with Next.js 15, featurin
 - **Conversion Tracking** - Contact attempts, social clicks, and external links
 - **Search Analytics** - Command palette usage and search patterns
 
-### 💬 **Community Features**
-
-- **Giscus Comments** - GitHub Discussions-powered commenting system
-- **Theme-Aware Comments** - Automatically matches site theme
-- **Reaction Support** - Users can react to posts and participate in discussions
-
 ### 🚀 **Performance & SEO**
 
 - **Next.js 15** - Latest App Router with React 19
@@ -68,7 +62,6 @@ A modern, performant personal portfolio and blog built with Next.js 15, featurin
 ### **Analytics & Integrations**
 
 - **[Google Analytics 4](https://analytics.google.com)** for comprehensive tracking
-- **[Giscus](https://giscus.app)** for GitHub Discussions comments
 - **[cmdk](https://cmdk.paco.me)** for command palette search
 
 ## 📁 Project Structure
@@ -82,7 +75,6 @@ src/
 │   └── globals.css          # Global styles and design tokens
 ├── components/
 │   ├── analytics/           # GA4 tracking components
-│   ├── comments/            # Giscus comment system
 │   ├── search/              # CMD+K search implementation
 │   ├── blog/                # Blog-specific components
 │   ├── projects/            # Project-specific components
@@ -137,10 +129,6 @@ src/
    # Analytics (optional)
    NEXT_PUBLIC_GA_MEASUREMENT_ID=your_ga4_measurement_id
 
-   # Comments (optional)
-   NEXT_PUBLIC_GISCUS_REPO=your-username/your-repo
-   NEXT_PUBLIC_GISCUS_REPO_ID=your_repo_id
-   NEXT_PUBLIC_GISCUS_CATEGORY_ID=your_category_id
    ```
 
 4. **Generate Content**
@@ -176,13 +164,6 @@ src/
 - **Content Performance** - Identify popular posts and projects
 - **Search Analytics** - Understand how users discover content
 - **Technical Metrics** - Page load times, scroll depth, and interaction patterns
-
-### **Comment System**
-
-- **GitHub Integration** - Leverages GitHub Discussions for comments
-- **Developer-Friendly** - Comments stored in your repository
-- **Theme Integration** - Automatically matches site theme
-- **Moderation Tools** - Full GitHub moderation capabilities
 
 ## 🏗 Development
 

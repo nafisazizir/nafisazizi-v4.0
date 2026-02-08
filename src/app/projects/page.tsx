@@ -6,13 +6,11 @@ export default async function Projects() {
   const projects = await getAllProjects();
 
   return (
-    <div className="py-12">
+    <div className="py-16 md:py-24">
       <div className="mx-auto max-w-6xl">
         <header className="mb-12">
-          <h1 className="text-foreground font-playfair text-3xl font-bold tracking-tight italic sm:text-4xl">
-            Projects
-          </h1>
-          <p className="text-muted-foreground mt-4 text-lg">
+          <h1 className="mt-2 text-2xl tracking-tight md:text-3xl lg:text-4xl">Projects</h1>
+          <p className="text-muted-foreground mt-2 text-sm sm:text-base lg:text-lg">
             A showcase of my work, side projects, and experiments.
           </p>
         </header>

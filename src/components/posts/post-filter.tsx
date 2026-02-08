@@ -1,9 +1,8 @@
 'use client';
 
 import { BasePostPreview } from '@/types/content';
-import { Filter, X } from 'lucide-react';
+import { X } from 'lucide-react';
 
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -49,7 +48,7 @@ export function PostFilter({ posts, selectedTags, onTagsChange }: PostFilterProp
             key={tag}
             size="sm"
             variant="secondary"
-            className="hover:text-muted-foreground rounded-full shadow-none"
+            className="hover:text-muted-foreground rounded-full font-mono text-xs shadow-none"
             onClick={() => handleTagRemove(tag)}
           >
             <span>{tag}</span>
@@ -61,10 +60,10 @@ export function PostFilter({ posts, selectedTags, onTagsChange }: PostFilterProp
           <Button
             size="sm"
             variant="ghost"
-            className="text-muted-foreground rounded-full shadow-none"
+            className="text-muted-foreground rounded-full font-mono text-xs lowercase shadow-none"
             onClick={clearAllFilters}
           >
-            Clear all
+            clear all
           </Button>
         )}
       </div>
@@ -72,13 +71,10 @@ export function PostFilter({ posts, selectedTags, onTagsChange }: PostFilterProp
       {/* Filter Dropdown - Far Right */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="shrink-0 shadow-none">
-            <Filter className="mr-2 h-4 w-4" />
-            Filter
+          <Button variant="ghost" className="shrink-0 font-mono text-xs shadow-none">
+            {'> filter'}
             {selectedTags.length > 0 && (
-              <Badge variant="secondary" className="ml-2">
-                {selectedTags.length}
-              </Badge>
+              <span className="text-muted-foreground ml-1">({selectedTags.length})</span>
             )}
           </Button>
         </DropdownMenuTrigger>
