@@ -1,8 +1,8 @@
-import { HeroSection, AboutSection, ProjectsSection, WritingSection } from '@/components/landing';
+import { AboutSection, HeroSection, ProjectsSection, WritingSection } from '@/components/landing';
 
 export default function Home() {
   return (
-    <div className="pb-12 max-w-5xl mx-auto">
+    <div className="mx-auto max-w-5xl pb-12">
       <HeroSection />
       <AboutSection />
       <ProjectsSection />

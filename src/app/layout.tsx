@@ -1,6 +1,6 @@
-import type { Metadata } from 'next';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
+import type { Metadata } from 'next';
 
 import GoogleAnalytics from '@/components/analytics/google-analytics';
 import { PageAnalytics } from '@/components/analytics/page-analytics';
@@ -36,17 +36,17 @@ export default function RootLayout({
         <PageAnalytics pageTitle="Nafis Azizi Riza" />
         <PostHogProvider>
           <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <Header />
-              <main className="container mx-auto max-w-6xl flex-grow px-4 sm:px-6 lg:px-8">
-                {children}
-              </main>
-              <Footer />
-            </ThemeProvider>
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Header />
+            <main className="container mx-auto max-w-6xl flex-grow px-4 sm:px-6 lg:px-8">
+              {children}
+            </main>
+            <Footer />
+          </ThemeProvider>
         </PostHogProvider>
       </body>
     </html>

@@ -20,7 +20,7 @@ export const trackPageView = (url: string) => {
 // Track custom events
 export const trackEvent = (
   eventName: string,
-  properties?: Record<string, string | number | boolean>
+  properties?: Record<string, string | number | boolean>,
 ) => {
   if (!isPostHogAvailable()) return;
 

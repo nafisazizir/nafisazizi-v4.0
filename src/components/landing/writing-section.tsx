@@ -1,9 +1,9 @@
+import { Binoculars, Tent, TramFront } from 'lucide-react';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 
 import { getAllBlogPosts } from '@/lib/content';
-import { Tent, Binoculars, TramFront } from 'lucide-react';
 
 export async function WritingSection() {
   const posts = await getAllBlogPosts();
@@ -31,7 +31,10 @@ export async function WritingSection() {
             <div
               className={`border-border/50 hover:bg-muted/50 h-full border-r border-b border-l p-6 transition-colors md:p-8 ${index < 2 ? 'md:border-r' : ''} ${index > 0 ? 'md:border-l-0' : ''}`}
             >
-              {(() => { const Icon = icons[index]; return <Icon className=" mb-5 size-6" />; })()}
+              {(() => {
+                const Icon = icons[index];
+                return <Icon className="mb-5 size-6" />;
+              })()}
               <h3 className="mb-3 text-xl font-medium tracking-tight md:text-2xl">
                 {post.title.replace(/^Debrief\.\s*Episode\s*\d+:\s*/i, '')}
               </h3>
