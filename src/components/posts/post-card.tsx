@@ -46,11 +46,6 @@ export function PostCard({ post, config, className }: PostCardProps) {
 
           {/* Content */}
           <div className="space-y-2">
-            {/* Date and Tags */}
-            <div className="text-muted-foreground flex items-center gap-2 text-sm">
-              <time dateTime={post.publishedDate || post.createdDate}>{formattedDate}</time>
-            </div>
-
             {/* Title */}
             <h2 className="text-xl font-medium tracking-tight transition-colors">{post.title}</h2>
 
@@ -60,6 +55,13 @@ export function PostCard({ post, config, className }: PostCardProps) {
                 {post.description || post.excerpt}
               </p>
             )}
+
+            <time
+              dateTime={post.publishedDate || post.createdDate}
+              className="text-muted-foreground text-xs"
+            >
+              {formattedDate}
+            </time>
           </div>
         </div>
       </Link>

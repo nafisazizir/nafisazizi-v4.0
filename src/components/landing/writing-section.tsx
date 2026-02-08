@@ -2,21 +2,14 @@ import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 
-const debriefs = [
-  { number: '03', title: 'Hostel Chronicles', slug: 'debrief-episode-3-hostel-chronicles' },
-  {
-    number: '02',
-    title: 'Finding the Adventurer Within',
-    slug: 'debrief-episode-2-finding-the-adventurer-within',
-  },
-  {
-    number: '01',
-    title: 'Crossing Impossible Distances',
-    slug: 'debrief-episode-1-crossing-impossible-distances',
-  },
-];
+import { getAllBlogPosts } from '@/lib/content';
+import { Tent, Binoculars, TramFront } from 'lucide-react';
 
-export function WritingSection() {
+export async function WritingSection() {
+  const posts = await getAllBlogPosts();
+  const featured = posts.slice(0, 3);
+  const icons = [Tent, Binoculars, TramFront];
+
   return (
     <section id="writing" className="mx-auto py-16 md:py-24">
       <div className="flex items-end justify-between gap-3 sm:gap-6">
@@ -32,17 +25,22 @@ export function WritingSection() {
         </Button>
       </div>
 
-      <div className="mt-8">
-        {debriefs.map((entry) => (
-          <Link
-            key={entry.slug}
-            href={`/blog/${entry.slug}`}
-            className="group border-border hover:border-foreground/20 flex items-center justify-between border-b py-4 transition-colors"
-          >
-            <div className="flex items-center gap-4">
-              <span className="text-muted-foreground w-6 font-mono text-xs">{entry.number}</span>
-              <span className="group-hover:text-foreground text-sm sm:text-base font-medium transition-colors">
-                {entry.title}
+      <div className="border-border/50 mt-8 grid border-t md:grid-cols-3">
+        {featured.map((post, index) => (
+          <Link key={post.slug} href={`/blog/${post.slug}`} className="h-full">
+            <div
+              className={`border-border/50 hover:bg-muted/50 h-full border-r border-b border-l p-6 transition-colors md:p-8 ${index < 2 ? 'md:border-r' : ''} ${index > 0 ? 'md:border-l-0' : ''}`}
+            >
+              {(() => { const Icon = icons[index]; return <Icon className=" mb-5 size-6" />; })()}
+              <h3 className="mb-3 text-xl font-medium tracking-tight md:text-2xl">
+                {post.title.replace(/^Debrief\.\s*Episode\s*\d+:\s*/i, '')}
+              </h3>
+              <p className="text-muted-foreground mb-3 line-clamp-4 text-sm">{post.description}</p>
+              <span className="text-muted-foreground text-sm">
+                {new Date(post.publishedDate ?? post.createdDate).toLocaleDateString('en-US', {
+                  month: 'short',
+                  year: 'numeric',
+                })}
               </span>
             </div>
           </Link>
